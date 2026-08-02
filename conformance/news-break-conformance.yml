@@ -1,0 +1,98 @@
+generated: '2026-08-01'
+method: derived
+source:
+  - openapi/news-break-advertising-openapi.yml
+  - openapi/news-break-monetization-reporting-openapi.yml
+  - https://advertising-api.newsbreak.com/hc/en-us
+summary: >-
+  NewsBreak asserts no industry standards conformance for either API and publishes no compliance
+  certifications. Derived from the documented contract, the APIs are plain JSON-over-HTTPS RPC with
+  a proprietary envelope: no OAuth2, no OIDC, no RFC 9457, no OpenAPI/AsyncAPI document, no
+  standard rate-limit headers and no standard deprecation headers.
+standards:
+  - id: openapi
+    conforms: false
+    evidence: >-
+      No machine-readable OpenAPI/Swagger document is published. /swagger.json on
+      msp-platform.newsbreak.com returns HTTP 200 with a zero-byte body; every other candidate spec
+      path 404s. The OpenAPI documents in openapi/ were authored by API Evangelist from the
+      published reference, not harvested from NewsBreak.
+  - id: asyncapi
+    conforms: false
+    evidence: No event, streaming or webhook surface is published, so no AsyncAPI applies.
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      Authentication is a static API key only (Access-Token header / token query parameter). No
+      authorization server, no token endpoint, no scopes.
+  - id: oidc
+    conforms: false
+    evidence: No /.well-known/openid-configuration on any host; no OIDC in the docs.
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: false
+    evidence: /.well-known/oauth-authorization-server returns 404 on every host.
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use a proprietary {code, errMsg, data} envelope returned inside HTTP 200, not
+      application/problem+json. See errors/news-break-problem-types.yml.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on every NewsBreak host.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset or Deprecation header support and no deprecation policy is published.
+  - id: rfc8615-well-known-uris
+    conforms: false
+    evidence: >-
+      No /.well-known/ document is served. The docs host answers 200 for every /.well-known/ path
+      but returns its SPA HTML shell, which is not a well-known resource.
+  - id: rfc9727-api-catalog
+    conforms: false
+    evidence: /.well-known/api-catalog returns 404 on every host.
+  - id: llms-txt
+    conforms: true
+    evidence: >-
+      A real llms.txt is published at https://www.newsbreak.com/llms.txt and captured verbatim at
+      llms/news-break-llms.txt. It follows the llms.txt shape (H1 name, blockquote summary,
+      H2 link sections) and scopes AI access to the local-business surface only.
+  - id: json-api
+    conforms: false
+    evidence: Responses are a proprietary envelope, not JSON:API documents.
+  - id: rest-uniform-interface
+    conforms: false
+    evidence: >-
+      RPC-over-HTTP. Verbs are encoded in the path (/campaign/create, /campaign/getList,
+      /campaign/updateStatus/{id}) and success/failure is signalled in the body rather than the
+      status line.
+  - id: openapi-pagination-conventions
+    conforms: partial
+    evidence: >-
+      Offset pagination is applied consistently across getCampaigns, getAdSets and getAds with the
+      same pageNo/pageSize request fields and pageNo/pageSize/total/hasNext response fields. No
+      cursor support and no Link headers.
+  - id: idempotency-key
+    conforms: false
+    evidence: >-
+      No idempotency key header, no dedup window and no safe-retry contract on any create
+      operation. See conventions/news-break-conventions.yml.
+  - id: iab-openrtb
+    conforms: unknown
+    evidence: >-
+      The MSP Monetization Reporting API reports on bidder "seat" and "seat_ad_unit" dimensions,
+      which is OpenRTB vocabulary, and the ad set model uses standard CPM/CPC/CPA/ROAS bidding.
+      NewsBreak makes no explicit OpenRTB conformance claim in the published documentation, so this
+      is recorded as unknown rather than asserted.
+compliance_certifications:
+  published: false
+  found: []
+  note: >-
+    No trust center, no SOC 2 / ISO 27001 / PCI DSS / HIPAA / FedRAMP claim and no compliance page
+    was located on any NewsBreak property. NewsBreak publishes a privacy policy and terms of use
+    only. No `Compliance` pointer is emitted in apis.yml because there is no published compliance
+    program to point at.
+regulatory_context:
+  note: >-
+    NewsBreak operates a US consumer advertising platform (legal entity Particle Media, Inc.,
+    a Delaware corporation), so CCPA/CPRA and COPPA-adjacent advertising obligations are in scope,
+    but NewsBreak publishes no API-level statement of how they are met.

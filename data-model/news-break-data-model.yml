@@ -1,0 +1,174 @@
+generated: '2026-08-01'
+method: derived
+source: openapi/news-break-advertising-openapi.yml
+summary: >-
+  A five-level advertising hierarchy - Organization owns Ad Accounts, an Ad Account owns Campaigns,
+  a Campaign owns Ad Sets, an Ad Set owns Ads, and an Ad owns exactly one Creative. Two side
+  entities attach to the tree: Event (conversion tracking, bound to an ad set through trackingId)
+  and AccountBudget (the spending cap on an ad account). ReportRow is the denormalized analytics
+  projection that carries an id + name pair for every level of the hierarchy at once.
+id_format:
+  style: numeric string
+  note: >-
+    Every identifier is a numeric value serialized as a JSON string. There are no typed prefixes,
+    so an ID is not self-describing - a caller cannot tell a campaignId from an adSetId by looking
+    at it.
+entities:
+  - name: Organization
+    schema: '#/components/schemas/Organization'
+    id: id
+    fields: [id, name]
+    description: Top-level advertiser or agency container. Retrieved via getAdminOrgs.
+  - name: AdAccount
+    schema: '#/components/schemas/AdAccount'
+    id: id
+    fields: [id, name, orgId, orgName, companyName, createTime]
+    description: >-
+      The billing and access boundary. Created under an organization with a mandatory industry
+      classification of the form <category>//<subcategory>.
+  - name: Campaign
+    schema: '#/components/schemas/Campaign'
+    id: id
+    fields: [id, name, orgId, adAccountId, objective, budget, onlineStatus, status, createTime, updateTime]
+    description: Objective-level container. Objective is fixed at creation and cannot be updated.
+  - name: AdSet
+    schema: '#/components/schemas/AdSet'
+    id: id
+    fields: [id, name, orgId, adAccountId, campaignId, trackingId, budget, budgetType, startTime, endTime, bidType, bidRate, targeting, onlineStatus, status]
+    description: >-
+      Where money, timing, inventory and audience are decided - budget, bid type, schedule,
+      platforms and targeting.
+  - name: Ad
+    schema: '#/components/schemas/Ad'
+    id: id
+    fields: [id, name, adAccountId, campaignId, adSetId, clickTrackingUrl, impressionTrackingUrl, creative, status, onlineStatus, createTime, updateTime]
+    description: The deliverable unit. Carries its creative inline and its own tracking URLs.
+  - name: Creative
+    schema: '#/components/schemas/Creative'
+    id: null
+    fields: [type, headline, assetUrl, coverUrl, playableAssetUrl, description, callToAction, brandName, logoUrl, clickThroughUrl]
+    description: >-
+      Embedded value object, not independently addressable. Its asset URLs must be NewsBreak CDN
+      URLs produced by uploadAdAssets.
+  - name: MediaAsset
+    schema: '#/components/schemas/UploadAssetResponse'
+    id: mediaId
+    fields: [assetUrl, mediaId]
+    description: >-
+      A creative asset uploaded to the NewsBreak CDN (static.particlenews.com). Optionally saved to
+      the ad account's Media Library for reuse.
+  - name: Event
+    schema: '#/components/schemas/Event'
+    id: id
+    fields: [id, name, orgId, type, eventType, eventParams, url, os]
+    description: >-
+      A conversion tracking event, either PIXEL (web) or POSTBACK (app). Its id is the trackingId
+      referenced by an ad set.
+  - name: Targeting
+    schema: '#/components/schemas/Targeting'
+    id: null
+    fields: [positive, negative]
+    description: >-
+      An open map of targeting field name to an AdSetTarget of positive/negative value lists.
+      Only location and device-location fields may carry both lists at once.
+  - name: AccountBudget
+    schema: '#/components/schemas/AccountBudgetResponse'
+    id: accountId
+    fields: [accountId, accountRemaining, accountSpendingCap, accountTotalSpend, canViewBudget, failMessage]
+    description: Account-level spending cap state for an ad account.
+  - name: ReportRow
+    schema: '#/components/schemas/ReportRow'
+    id: null
+    fields: [date, hour, orgId, organization, adAccountId, adAccount, campaignId, campaign, adSetId, adSet, adId, ad, placement, country, cost, impression, click, conversion, cpm, cpc, cpa, ctr]
+    description: >-
+      Denormalized analytics row. Carries an id + display-name pair for every hierarchy level,
+      plus integer-cents and *Decimal double variants of each monetary metric.
+relationships:
+  - from: Organization
+    to: AdAccount
+    kind: has_many
+    via: orgId
+    operation: getAdAccounts
+  - from: AdAccount
+    to: Organization
+    kind: belongs_to
+    via: orgId
+  - from: AdAccount
+    to: Campaign
+    kind: has_many
+    via: adAccountId
+    operation: getCampaigns
+  - from: Campaign
+    to: AdAccount
+    kind: belongs_to
+    via: adAccountId
+  - from: Campaign
+    to: Organization
+    kind: belongs_to
+    via: orgId
+    note: Denormalized - campaigns carry orgId directly as well as adAccountId.
+  - from: Campaign
+    to: AdSet
+    kind: has_many
+    via: campaignId
+    operation: getAdSets
+  - from: AdSet
+    to: Campaign
+    kind: belongs_to
+    via: campaignId
+  - from: AdSet
+    to: Ad
+    kind: has_many
+    via: adSetId
+    operation: getAds
+  - from: Ad
+    to: AdSet
+    kind: belongs_to
+    via: adSetId
+  - from: Ad
+    to: Creative
+    kind: has_one
+    via: creative
+  - from: Creative
+    to: MediaAsset
+    kind: belongs_to
+    via: assetUrl
+    note: >-
+      Referenced by CDN URL rather than by mediaId. The URL must have been produced by
+      uploadAdAssets and must include the account ID.
+  - from: AdSet
+    to: Event
+    kind: has_one
+    via: trackingId
+    note: An ad set points at one tracking event; the event's `id` is the ad set's `trackingId`.
+  - from: Event
+    to: Organization
+    kind: belongs_to
+    via: orgId
+  - from: AdAccount
+    to: AccountBudget
+    kind: has_one
+    via: accountId
+    operation: getAccountSpendingCap
+  - from: AdAccount
+    to: User
+    kind: has_many
+    via: addAdAccountUser / deleteAdAccountUser
+    note: >-
+      Membership is managed by email on add and by userId on remove; there is no operation to list
+      the users on an ad account, so the membership set is write-only from the API's point of view.
+notes:
+  - >-
+    The hierarchy is strictly ownership-based, but child objects denormalize their ancestors -
+    an Ad carries adAccountId, campaignId AND adSetId - so a caller can filter at any level without
+    a join.
+  - >-
+    Objective is set on the Campaign and constrains the Ad Set: googlePlayId / iosAppId become
+    required only for ad sets under an APP_TRAFFIC campaign.
+  - >-
+    bidType constrains sibling fields - bidRate is required for CPM/CPC/TARGET_CPA, roas is
+    required for TARGET_ROAS/DAY_ONE_TARGET_ROAS, and deliveryRate applies only to CPM/CPC. This
+    conditional requirement is documented in prose and is not expressible in the published contract.
+  - >-
+    There is no User entity exposed for reading, and no operation to enumerate organizations other
+    than those where the caller is ORG_ADMIN.

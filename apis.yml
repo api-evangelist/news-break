@@ -1,23 +1,188 @@
 aid: news-break
 name: News Break
-description: 'News Break is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'NewsBreak is the leading local news and information platform in the United States,
+  operated by Particle Media, Inc., a Delaware corporation founded in Silicon Valley in 2015 and
+  launched as a mobile app in 2016. Its AI-powered platform serves more than 40 million Americans a
+  month with local news, alerts, crime maps, weather, events and community content, connecting local
+  users, local content creators and local businesses at scale. NewsBreak exposes two developer
+  surfaces. The NewsBreak Advertising API (NewsBreak API for Business) lets technology companies,
+  direct advertisers and agencies programmatically manage the NewsBreak Ads Manager: organizations
+  and ad accounts, ad-account user roles, campaigns, ad sets with budget, bidding, inventory
+  platforms and audience targeting, ads and creative asset upload, account spending caps,
+  conversion tracking events, and multidimensional performance reporting. The NewsBreak MSP
+  Monetization Reporting API serves the supply side, returning impressions, revenue, publisher net
+  revenue and eCPM for publishers and monetization partners. NewsBreak also publishes an llms.txt
+  that scopes AI access to its verified local-business content surface.'
+image: https://static.newsbreak.com/static/favicon-32x32.png
 url: https://raw.githubusercontent.com/api-evangelist/news-break/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-01'
 modified: '2026-08-01'
 tags:
 - Company
-apis: []
+- Advertising
+- AdTech
+- News
+- Media
+- Local News
+- Publishing
+- Monetization
+- Campaign Management
+- Reporting
+- Analytics
+- Content
+apis:
+- aid: news-break:advertising
+  name: NewsBreak Advertising API
+  description: 'The NewsBreak Advertising API, also published as the NewsBreak API for Business,
+    lets technology companies, direct advertisers and agencies programmatically manage the NewsBreak
+    Ads Manager at scale. Twenty-seven documented operations cover organizations, ad accounts and
+    ad-account user roles, campaigns, ad sets (budget, bid type, schedule, inventory platforms and
+    audience targeting), ads and their creatives, creative asset upload to the NewsBreak CDN,
+    account-level spending caps, conversion tracking events, and synchronous plus saved custom
+    performance reports. Authentication is a single Access-Token header generated in the Ad Manager.'
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Advertising
+  - AdTech
+  - Campaign Management
+  - Reporting
+  - Audience Targeting
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-advertising-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Overlay
+    url: overlays/news-break-advertising-overlay.yaml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+- aid: news-break:monetization-reporting
+  name: NewsBreak MSP Monetization Reporting API
+  description: 'The NewsBreak MSP API for Business is the monetization-side interface NewsBreak
+    provides to publishers and supply partners running the NewsBreak MSP monetization service
+    platform. The Reporting API returns aggregated ad monetization performance - impressions, gross
+    revenue, publisher net revenue, eCPM, fill and request counts, clicks and CTR - broken down by
+    date, operating system, bidder seat, placement, bidder ad unit and device type. Credentials are
+    passed as org_id, app_id and token query parameters.'
+  humanURL: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  baseURL: https://msp-platform.newsbreak.com
+  tags:
+  - Monetization
+  - Reporting
+  - Publishing
+  - AdTech
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-monetization-reporting-openapi.yml
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+  - type: Overlay
+    url: overlays/news-break-monetization-reporting-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/news-break-agentic-access.yml
+- type: DomainSecurity
+  url: security/news-break-domain-security.yml
 - type: Website
-  url: https://forgeglobal.com/news-break_stock/
+  url: https://www.newsbreak.com/
+- type: About
+  url: https://www.newsbreak.com/who-we-are
+- type: DeveloperPortal
+  url: https://advertising-api.newsbreak.com/hc/en-us
+- type: Documentation
+  url: https://advertising-api.newsbreak.com/hc/en-us
+- type: APIReference
+  url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+- type: GettingStarted
+  url: https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+- type: Support
+  url: https://help.newsbreak.com/hc/en-us
+- type: Blog
+  url: https://www.newsbreak.com/blog
+- type: SignUp
+  url: https://business.newsbreak.com/
+- type: Login
+  url: https://business.newsbreak.com/
+- type: TermsOfService
+  url: https://www.newsbreak.com/terms
+- type: PrivacyPolicy
+  url: https://www.newsbreak.com/privacy
+- type: Authentication
+  url: authentication/news-break-authentication.yml
+- type: RateLimits
+  url: rate-limits/news-break-rate-limits.yml
+- type: ErrorCatalog
+  url: errors/news-break-problem-types.yml
+- type: Conventions
+  url: conventions/news-break-conventions.yml
+- type: DataModel
+  url: data-model/news-break-data-model.yml
+- type: Lifecycle
+  url: lifecycle/news-break-lifecycle.yml
+- type: ChangeLog
+  url: changelog/news-break-changelog.yml
+- type: Conformance
+  url: conformance/news-break-conformance.yml
+- type: WellKnownProbe
+  url: well-known/news-break-well-known.yml
+  x-note: >-
+    Deliberately NOT typed WellKnown. NewsBreak serves no /.well-known/ document on any host - the
+    artifact is a negative probe record (and documents that the Docusaurus docs host answers 200
+    with an HTML shell for every /.well-known/ path). Claiming the canonical WellKnown type would
+    credit a discovery surface that does not exist.
+- type: LLMsTxt
+  url: llms/news-break-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: MCPCandidate
+  url: mcp/news-break-mcp.yml
+  x-note: >-
+    Deliberately NOT typed MCPServer. NewsBreak publishes no MCP server; this artifact is a derived
+    candidate tool surface only, and claiming the canonical MCPServer type would credit NewsBreak
+    with an agent surface it does not operate.
+- type: Arazzo
+  name: Launch a NewsBreak advertising campaign
+  url: arazzo/news-break-launch-campaign.yml
+- type: Arazzo
+  name: Report on a NewsBreak ad account and pause campaigns
+  url: arazzo/news-break-pause-and-report.yml
+x-enrichment:
+  date: '2026-08-01'
+  status: enriched
+  artifacts_added: 20
+  pass: local-v1

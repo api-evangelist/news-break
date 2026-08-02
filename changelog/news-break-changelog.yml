@@ -1,0 +1,41 @@
+generated: '2026-08-01'
+method: searched
+source: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+summary: >-
+  NewsBreak publishes a "What's New" page for the MSP Monetization Reporting API, but it carries a
+  single entry from the API's launch and has not been updated since. The Advertising API - by far
+  the larger surface, and one that visibly grew during 2025-2026 (organization endpoints, ad-account
+  user management, account spending caps, the platforms field, playable video creatives) - has NO
+  dated changelog at all; changes are only discoverable by diffing help-center articles.
+scheme: semantic-ish (v0.1)
+current_version: v0.1
+cadence: unmaintained
+entries:
+  - date: '2024-01-03'
+    version: v0.1
+    category: Reporting
+    type: enhancement
+    breaking: false
+    highlights:
+      - Support the first-version report API.
+    source: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+    note: >-
+      The What's New page dates this entry to January 3rd 2024 while the versioning page dates the
+      v0.1 introduction to January 3rd 2025. The two published pages disagree by a year; both are
+      recorded here verbatim rather than reconciled.
+gaps:
+  - No changelog of any kind for the NewsBreak Advertising API (business.newsbreak.com/business-api/v1).
+  - No RSS/Atom feed, no email list and no machine-readable release feed for either API.
+  - No breaking-change log, so consumers cannot audit what changed between deploys.
+undated_additions_observed:
+  note: >-
+    These Advertising API capabilities are published in the help center but appear in no changelog.
+    Listed as an observation of the documented surface, not as dated releases.
+  items:
+    - Organization endpoint (getAdminOrgs)
+    - Ad account creation and ad-account user management (create, addUser, deleteUser)
+    - Account-level spending caps (getAccountBudgetInfo, updateAccountsBudget)
+    - Ad set `platforms` inventory selection, including Scoopz and premium-partner inventory
+    - PLAYABLE_VIDEO creative type and playableAssetUrl
+    - Media Library saving on asset upload (saveToMediaLibrary, mediaName)
+see_also: lifecycle/news-break-lifecycle.yml

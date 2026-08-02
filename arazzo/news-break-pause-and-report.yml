@@ -1,0 +1,119 @@
+arazzo: 1.0.1
+info:
+  title: Report on a NewsBreak ad account and pause underperforming campaigns
+  version: 1.0.0
+  description: >-
+    Pull a last-7-days performance report for an ad account, list its campaigns, and pause a chosen
+    campaign by toggling its status to OFF. Read-only steps are safe to retry; the status toggle is
+    not idempotent in the sense that it has no dedup key, but it IS naturally convergent.
+sourceDescriptions:
+  - name: advertising
+    url: ../openapi/news-break-advertising-openapi.yml
+    type: openapi
+workflows:
+  - workflowId: report-and-pause-campaign
+    summary: Run a report for an ad account, then pause a campaign.
+    inputs:
+      type: object
+      required:
+        - adAccountId
+      properties:
+        adAccountId:
+          type: string
+          description: The ad account to report on.
+        reportName:
+          type: string
+          default: Last 7 days by campaign
+        timezone:
+          type: string
+          description: IANA timezone string. The API default is PDT, so always set this explicitly.
+          default: UTC
+        campaignIdToPause:
+          type: string
+          description: Campaign to switch OFF. Omit to run report-only.
+    steps:
+      - stepId: run-report
+        description: >-
+          Synchronous report. dataSource HOURLY is the official basis for income settlement;
+          REALTIME is monitoring only. The DATE dimension is limited to a 30-day FIXED range.
+        operationId: runSynchronousReport
+        requestBody:
+          contentType: application/json
+          payload:
+            name: $inputs.reportName
+            timezone: $inputs.timezone
+            dateRange: LAST_7_DAYS
+            dataSource: HOURLY
+            filter: AD_ACCOUNT
+            filterIds:
+              - $inputs.adAccountId
+            dimensions:
+              - DATE
+              - CAMPAIGN
+            metrics:
+              - COST
+              - IMPRESSION
+              - CLICK
+              - CONVERSION
+        successCriteria:
+          - condition: $statusCode == 200
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          rows: $response.body#/data/rows
+      - stepId: list-campaigns
+        description: >-
+          Page through the ad account's campaigns. pageNo and pageSize are both REQUIRED; pageSize
+          is a closed enum (5, 10, 20, 50, 100, 200, 500).
+        operationId: getCampaigns
+        parameters:
+          - name: adAccountId
+            in: query
+            value: $inputs.adAccountId
+          - name: onlineStatus
+            in: query
+            value: ACTIVE
+          - name: pageNo
+            in: query
+            value: 1
+          - name: pageSize
+            in: query
+            value: 50
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          campaigns: $response.body#/data/rows
+          hasNext: $response.body#/data/hasNext
+          total: $response.body#/data/total
+      - stepId: pause-campaign
+        description: >-
+          Toggle the campaign OFF. Prefer this over deleteCampaign, which is destructive and sets
+          onlineStatus to DELETED.
+        operationId: updateCampaignStatus
+        parameters:
+          - name: campaignId
+            in: path
+            value: $inputs.campaignIdToPause
+        requestBody:
+          contentType: application/json
+          payload:
+            status: 'OFF'
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+          - context: $response.body
+            condition: $.data.status == 'OFF'
+            type: jsonpath
+        outputs:
+          campaignId: $response.body#/data/id
+          status: $response.body#/data/status
+          onlineStatus: $response.body#/data/onlineStatus
+    outputs:
+      reportRows: $steps.run-report.outputs.rows
+      campaignTotal: $steps.list-campaigns.outputs.total
+      pausedCampaignId: $steps.pause-campaign.outputs.campaignId
+      pausedStatus: $steps.pause-campaign.outputs.status

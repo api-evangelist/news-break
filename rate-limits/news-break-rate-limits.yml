@@ -1,0 +1,90 @@
+generated: '2026-08-01'
+method: searched
+source: https://advertising-api.newsbreak.com/hc/en-us/articles/40262642898701-Rate-Limits
+also_published_at: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+summary: >-
+  NewsBreak publishes explicit, numeric rate limits for the Advertising API. Limits are applied at
+  two layers - a global limit per developer application across all endpoints, and independent
+  endpoint-specific limits so that exhausting one endpoint group does not block another. Each tier
+  carries three simultaneous ceilings: queries-per-second, queries-per-minute and queries-per-day.
+model: tiered
+layers:
+  - name: global
+    description: Applies to API requests to all endpoints by a single developer application.
+  - name: endpoint-specific
+    description: >-
+      Applies to a single endpoint or endpoint group. Limits for different endpoints are
+      independent - if /campaign/get is throttled, the application can still call /ad/get.
+tiers:
+  - name: Basic
+    qps: 10
+    qpm: 600
+    qpd: 864000
+  - name: Advanced
+    qps: 20
+    qpm: 1200
+    qpd: 1728000
+  - name: Premium
+    qps: 30
+    qpm: 1800
+    qpd: 2592000
+rate_limits:
+  - name: Basic - queries per second
+    tier: Basic
+    limit_count: 10
+    limit_interval: second
+  - name: Basic - queries per minute
+    tier: Basic
+    limit_count: 600
+    limit_interval: minute
+  - name: Basic - queries per day
+    tier: Basic
+    limit_count: 864000
+    limit_interval: day
+  - name: Advanced - queries per second
+    tier: Advanced
+    limit_count: 20
+    limit_interval: second
+  - name: Advanced - queries per minute
+    tier: Advanced
+    limit_count: 1200
+    limit_interval: minute
+  - name: Advanced - queries per day
+    tier: Advanced
+    limit_count: 1728000
+    limit_interval: day
+  - name: Premium - queries per second
+    tier: Premium
+    limit_count: 30
+    limit_interval: second
+  - name: Premium - queries per minute
+    tier: Premium
+    limit_count: 1800
+    limit_interval: minute
+  - name: Premium - queries per day
+    tier: Premium
+    limit_count: 2592000
+    limit_interval: day
+signalling:
+  headers: []
+  header_note: >-
+    NewsBreak documents no rate-limit response headers (no RateLimit / RateLimit-Policy per RFC
+    9239-style draft, no X-RateLimit-*, no Retry-After). Throttling is signalled only in the
+    response body.
+  body_signal:
+    field: code
+    value: 4034
+    meaning: Rate limit exceeded - your request was throttled.
+backoff:
+  qpm_exceeded:
+    wait: PT5M
+    description: Suspend calls to that interface for 5 minutes before resuming.
+  qpd_exceeded:
+    wait: until-next-day
+    reset: '00:00:00 UTC+00:00'
+    description: Wait until the QPD quota resets at 00:00:00 UTC+0 the following day.
+notes:
+  - >-
+    The tier a developer application is assigned to is not self-service - the documentation
+    describes four call-limit levels but publishes numbers for three (Basic, Advanced, Premium).
+  - No published rate limits were found for the MSP Monetization Reporting API.

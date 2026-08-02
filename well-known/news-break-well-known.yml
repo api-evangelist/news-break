@@ -1,0 +1,107 @@
+generated: '2026-08-01'
+method: probed
+source: live HTTP probe of every NewsBreak host in apis.yml
+summary: >-
+  No /.well-known/ discovery document is served on any NewsBreak host. NewsBreak does publish an
+  llms.txt at the apex web host (captured verbatim in llms/news-break-llms.txt), but no
+  security.txt, no OIDC/OAuth discovery, no api-catalog, no ai-plugin and no A2A agent card.
+hosts:
+  - host: https://www.newsbreak.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 200
+        content_type: text/plain; charset=utf-8
+        file: ../llms/news-break-llms.txt
+  - host: https://business.newsbreak.com
+    note: Advertising API host. Base path /business-api/v1.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://msp-platform.newsbreak.com
+    note: MSP monetization API host.
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+      - path: /swagger.json
+        status: 200
+        content_type: application/json
+        content_length: 0
+        note: >-
+          Answers 200 with a ZERO-BYTE body. Not a usable OpenAPI/Swagger contract. /openapi.json,
+          /openapi.yaml, /v2/api-docs, /v3/api-docs and /api-docs all return 404 on this host.
+  - host: https://doc.msp.newsbreak.com
+    note: >-
+      Docusaurus v3 documentation site. WARNING - this host is a single-page-app catch-all that
+      answers HTTP 200 with the same HTML shell for EVERY path, including every /.well-known/*
+      path, /openapi.json and /llms.txt. All of those 200s are false positives, not documents.
+      Verified by content inspection, not status code alone.
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        verdict: false-positive
+        content_type: text/html
+      - path: /.well-known/agent-card.json
+        status: 200
+        verdict: false-positive
+        content_type: text/html
+      - path: /.well-known/agent.json
+        status: 200
+        verdict: false-positive
+        content_type: text/html
+      - path: /openapi.json
+        status: 200
+        verdict: false-positive
+        content_type: text/html
+      - path: /llms.txt
+        status: 200
+        verdict: false-positive
+        content_type: text/html
+  - host: https://localbusiness.newsbreak.com
+    documents:
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+  - host: https://publishers.newsbreak.com
+    documents:
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /llms.txt
+        status: 404
+x-evidence:
+  fetched: '2026-08-01'
+  method: HTTP GET with redirect following, content-type and body inspected on every 200

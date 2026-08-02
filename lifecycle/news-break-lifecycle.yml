@@ -1,0 +1,58 @@
+generated: '2026-08-01'
+method: searched
+source: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+summary: >-
+  NewsBreak publishes a versioning page for the MSP Monetization Reporting API and pins the
+  Advertising API to a /business-api/v1 path, but there is no deprecation policy, no sunset
+  commitment, no SLA and no public status page. The single published version row carries an
+  "Available until" value of TBD.
+versioning:
+  - api: NewsBreak Advertising API
+    scheme: uri-path
+    current: v1
+    base_path: /business-api/v1
+    docs: https://advertising-api.newsbreak.com/hc/en-us
+    note: >-
+      The version appears only in the base path. No version header, no date-based pinning and no
+      published list of prior versions.
+  - api: NewsBreak MSP Monetization Reporting API
+    scheme: document-version
+    current: v0.1
+    introduced: '2025-01-03'
+    available_until: TBD
+    docs: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+    note: >-
+      Still on a 0.x version more than a year after introduction. The versioning table's
+      "Available until" column reads TBD, so no end-of-life date has been communicated.
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  notice_period: null
+  note: >-
+    No deprecation policy, no notice period, no RFC 8594 Sunset/Deprecation header support and no
+    documented migration path between versions. Consumers have no contractual warning of a breaking
+    change.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  note: No published SLA or uptime commitment for either API.
+status_page: null
+status_page_note: >-
+  No status page found. status.newsbreak.com does not resolve, and no Statuspage/Instatus/Better
+  Stack property was located for any NewsBreak host.
+support:
+  email: adsupport@newsbreak.com
+  help_center: https://advertising-api.newsbreak.com/hc/en-us
+  general_help_center: https://help.newsbreak.com/hc/en-us
+changelog: changelog/news-break-changelog.yml
+x-evidence:
+  fetched: '2026-08-01'
+  probes:
+    - url: https://status.newsbreak.com/
+      result: DNS does not resolve
+    - url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+      http_status: 200

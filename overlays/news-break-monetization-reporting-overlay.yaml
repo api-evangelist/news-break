@@ -1,0 +1,31 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for NewsBreak MSP Monetization Reporting API
+  version: 1.0.0
+extends: openapi/news-break-monetization-reporting-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: news-break
+    x-apievangelist-artifacts:
+      authentication: authentication/news-break-authentication.yml
+      conventions: conventions/news-break-conventions.yml
+      errors: errors/news-break-problem-types.yml
+      rate-limits: rate-limits/news-break-rate-limits.yml
+      lifecycle: lifecycle/news-break-lifecycle.yml
+      data-model: data-model/news-break-data-model.yml
+    x-provenance:
+      method: generated
+      note: NewsBreak publishes no machine-readable API contract. Every path, parameter, enumeration and response
+        field in the base document was transcribed by API Evangelist from the provider reference linked in externalDocs.
+      generated: '2026-08-01'
+- target: $.info
+  update:
+    x-error-envelope:
+      note: Errors are returned inside HTTP 200 with a non-zero `code`. Do not branch on the status line alone.
+      catalog: errors/news-break-problem-types.yml
+- target: $.info
+  update:
+    x-idempotency:
+      supported: false
+      note: No idempotency key, no dedup window. All create operations are unsafe to retry.

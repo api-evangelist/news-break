@@ -1,0 +1,191 @@
+arazzo: 1.0.1
+info:
+  title: Launch a NewsBreak advertising campaign
+  version: 1.0.0
+  description: >-
+    Resolve the caller's organization and ad account, create a campaign, attach a tracking event,
+    create an ad set with budget, bidding and targeting, upload the creative asset to the NewsBreak
+    CDN, and create the ad. Mirrors skills/news-break-launch-a-campaign.md.
+sourceDescriptions:
+  - name: advertising
+    url: ../openapi/news-break-advertising-openapi.yml
+    type: openapi
+workflows:
+  - workflowId: launch-newsbreak-campaign
+    summary: Create a campaign, ad set and ad on NewsBreak from an organization ID.
+    description: >-
+      Every step returns HTTP 200; success is asserted on the body field `code == 0`, not the status
+      line. None of the create steps are idempotent - a retry duplicates the object.
+    inputs:
+      type: object
+      required:
+        - campaignName
+        - adSetName
+        - adName
+      properties:
+        campaignName:
+          type: string
+          description: Descriptive name of the campaign.
+        objective:
+          type: string
+          description: Campaign objective.
+          default: WEB_CONVERSION
+        adSetName:
+          type: string
+        budgetCents:
+          type: integer
+          description: Ad set budget in CENTS.
+          default: 50000
+        budgetType:
+          type: string
+          default: DAILY
+        startTime:
+          type: integer
+          description: Unix timestamp for ad set start.
+        endTime:
+          type: integer
+          description: Unix timestamp for ad set end.
+        bidType:
+          type: string
+          default: CPC
+        bidRateCents:
+          type: integer
+          default: 500
+        adName:
+          type: string
+        headline:
+          type: string
+        adDescription:
+          type: string
+        callToAction:
+          type: string
+        brandName:
+          type: string
+        clickThroughUrl:
+          type: string
+    steps:
+      - stepId: find-organizations
+        description: List the organizations where the caller holds ORG_ADMIN. Takes no parameters.
+        operationId: getAdminOrgs
+        successCriteria:
+          - condition: $statusCode == 200
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          orgId: $response.body#/data/list/0/id
+      - stepId: find-ad-accounts
+        description: List ad accounts grouped by organization.
+        operationId: getAdAccounts
+        parameters:
+          - name: orgIds
+            in: query
+            value: $steps.find-organizations.outputs.orgId
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          adAccountId: $response.body#/data/list/0/adAccounts/0/id
+      - stepId: create-campaign
+        description: Create the campaign. Objective is fixed at creation and cannot be updated later.
+        operationId: createCampaign
+        requestBody:
+          contentType: application/json
+          payload:
+            adAccountId: $steps.find-ad-accounts.outputs.adAccountId
+            name: $inputs.campaignName
+            objective: $inputs.objective
+            status: 'ON'
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          campaignId: $response.body#/data/id
+      - stepId: list-tracking-events
+        description: >-
+          Read the ad account's conversion tracking events. The event id becomes the ad set
+          trackingId. Required for conversion objectives.
+        operationId: getEvents
+        parameters:
+          - name: adAccountId
+            in: path
+            value: $steps.find-ad-accounts.outputs.adAccountId
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          trackingId: $response.body#/data/list/0/id
+      - stepId: create-ad-set
+        description: >-
+          Create the ad set. bidRate is required for CPM/CPC/TARGET_CPA; roas is required instead
+          for TARGET_ROAS/DAY_ONE_TARGET_ROAS.
+        operationId: createAdSet
+        requestBody:
+          contentType: application/json
+          payload:
+            campaignId: $steps.create-campaign.outputs.campaignId
+            name: $inputs.adSetName
+            budgetType: $inputs.budgetType
+            budget: $inputs.budgetCents
+            startTime: $inputs.startTime
+            endTime: $inputs.endTime
+            bidType: $inputs.bidType
+            bidRate: $inputs.bidRateCents
+            trackingId: $steps.list-tracking-events.outputs.trackingId
+            platforms:
+              - NEWSBREAK
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          adSetId: $response.body#/data/id
+      - stepId: upload-creative-asset
+        description: >-
+          Upload the creative to the NewsBreak CDN. Only asset URLs returned here are accepted by
+          createAd.
+        operationId: uploadAdAssets
+        requestBody:
+          contentType: multipart/form-data
+          payload:
+            adAccountId: $steps.find-ad-accounts.outputs.adAccountId
+            saveToMediaLibrary: true
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          assetUrl: $response.body#/data/assetUrl
+          mediaId: $response.body#/data/mediaId
+      - stepId: create-ad
+        description: Create the ad with its creative. New ads land in onlineStatus PENDING pending review.
+        operationId: createAd
+        requestBody:
+          contentType: application/json
+          payload:
+            adSetId: $steps.create-ad-set.outputs.adSetId
+            name: $inputs.adName
+            status: 'ON'
+            creative:
+              type: IMAGE
+              headline: $inputs.headline
+              assetUrl: $steps.upload-creative-asset.outputs.assetUrl
+              description: $inputs.adDescription
+              callToAction: $inputs.callToAction
+              brandName: $inputs.brandName
+              clickThroughUrl: $inputs.clickThroughUrl
+        successCriteria:
+          - context: $response.body
+            condition: $.code == 0
+            type: jsonpath
+        outputs:
+          adId: $response.body#/data/id
+          onlineStatus: $response.body#/data/onlineStatus
+    outputs:
+      campaignId: $steps.create-campaign.outputs.campaignId
+      adSetId: $steps.create-ad-set.outputs.adSetId
+      adId: $steps.create-ad.outputs.adId
+      onlineStatus: $steps.create-ad.outputs.onlineStatus

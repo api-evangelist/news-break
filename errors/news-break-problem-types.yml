@@ -1,0 +1,90 @@
+generated: '2026-08-01'
+method: searched
+source: https://advertising-api.newsbreak.com/hc/en-us/articles/37869109014541-Return-Codes
+also_published_at: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+format: custom-envelope
+rfc9457: false
+summary: >-
+  NewsBreak does not use RFC 9457 problem+json. Both the Advertising API and the MSP Monetization
+  Reporting API return HTTP 200 with a JSON envelope carrying an integer `code` and a string
+  `errMsg`; a `code` of 0 means success and any other value is an error. The published return-code
+  registry is small (six codes) and covers only authentication, authorization and throttling —
+  there is no documented registry for validation or resource-level errors, so callers must branch
+  on `errMsg` text for those. Platform validation failures on the ad-set `platforms` field are the
+  one documented exception: they return a real HTTP 400 with a `Details:` message.
+envelope:
+  media_type: application/json
+  transport: >-
+    HTTP 200 for both success and most errors. Check the body, not the status line.
+  fields:
+    - name: code
+      type: integer
+      description: Status code. 0 is successful; any other value is an error.
+    - name: errMsg
+      type: string
+      description: Error message, present when code != 0.
+    - name: data
+      type: object
+      description: Response payload, present when code == 0.
+problems:
+  - code: 0
+    title: Successful
+    kind: success
+    description: The call succeeded. The payload is in `data`.
+  - code: 403
+    title: Permission denied
+    kind: authorization
+    description: >-
+      The access token is valid but does not carry the permission the advertiser must grant for
+      this operation, or the caller has no access to the referenced organization or ad account.
+    remediation: >-
+      Confirm the advertiser granted the required permission to the token, and that the
+      organization/ad-account IDs in the request are ones the caller can access.
+  - code: 4031
+    title: Not login
+    kind: authentication
+    description: No authenticated session or token was presented with the request.
+    remediation: Send the `Access-Token` header on every Advertising API request.
+  - code: 4033
+    title: Invalid access token
+    kind: authentication
+    description: The presented access token is malformed, revoked or expired.
+    remediation: >-
+      Regenerate the token in NewsBreak Ad Manager under Resources -> API Access Tokens
+      ("Generate Token").
+  - code: 4034
+    title: Rate limit exceeded
+    kind: throttling
+    description: >-
+      A QPS, QPM or QPD rate limit was hit. Rate limits are both global (per developer application)
+      and endpoint-specific, and are independent per endpoint.
+    remediation: >-
+      Back off and retry. After a QPM limit, wait 5 minutes. After a QPD limit, wait until the
+      quota resets at 00:00:00 UTC+0. See rate-limits/news-break-rate-limits.yml.
+    see_also: rate-limits/news-break-rate-limits.yml
+  - code: -1
+    title: Unknown error
+    kind: server
+    description: An unclassified server-side failure.
+    remediation: Retry with backoff; if it persists contact adsupport@newsbreak.com.
+http_status_errors:
+  - status: 400
+    scope: createAdSet, updateAdSet
+    title: Invalid platforms value
+    source_operation: openapi/news-break-advertising-openapi.yml#createAdSet
+    source_docs: https://advertising-api.newsbreak.com/hc/en-us
+    messages:
+      - condition: 'platforms contains APP_AND_WEB_UNLIMITED together with any other value'
+        message: APP_AND_WEB_UNLIMITED must be the only platform
+      - condition: 'platforms contains more than one PREMIUM_PARTNERS_* value'
+        message: At most one PREMIUM_PARTNERS_* value may appear in the list
+      - condition: 'platforms contains duplicate entries'
+        message: Duplicate entries are rejected
+gaps:
+  - >-
+    No documented error code for validation failures on campaign/ad-set/ad create and update
+    bodies; callers must parse `errMsg`.
+  - >-
+    No documented error code for resource-not-found on the {campaignId}/{adSetId}/{adId} path
+    operations.
+  - No `type` URI per error, no problem+json, and no machine-readable error registry.

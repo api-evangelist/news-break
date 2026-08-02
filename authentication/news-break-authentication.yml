@@ -1,0 +1,83 @@
+generated: '2026-08-01'
+method: searched
+source: https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+docs: https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+summary:
+  types:
+    - apiKey
+  api_key_in:
+    - header
+    - query
+  oauth2_flows: []
+  oidc: false
+  mutual_tls: false
+  note: >-
+    NewsBreak uses long-lived, self-service API keys only. There is no OAuth 2.0, no OpenID Connect,
+    no scope surface, no refresh flow and no documented token expiry or rotation policy. The
+    Advertising API sends the key in a custom `Access-Token` header; the MSP Monetization Reporting
+    API sends it as a `token` query parameter, which puts the credential in URLs, proxy logs and
+    browser history.
+schemes:
+  - name: AccessToken
+    type: apiKey
+    in: header
+    parameter_name: Access-Token
+    api: NewsBreak Advertising API
+    sources:
+      - openapi/news-break-advertising-openapi.yml
+    description: >-
+      Authorized access token. Carries the permissions granted by the advertiser on the ad account.
+    issuance:
+      self_service: true
+      location: NewsBreak Ad Manager -> Resources -> API Access Tokens
+      action: Generate Token
+      prerequisite: An ad account must already exist in the NewsBreak Ad Manager.
+    transport: HTTP request header
+    example_header: 'Access-Token: your_access_token'
+  - name: ApiToken
+    type: apiKey
+    in: query
+    parameter_name: token
+    api: NewsBreak MSP Monetization Reporting API
+    sources:
+      - openapi/news-break-monetization-reporting-openapi.yml
+    description: >-
+      API token for an MSP organization, sent as the `token` query parameter alongside the `org_id`
+      and `app_id` query parameters that scope the request.
+    transport: URL query string
+    caveat: >-
+      Credential-in-URL. Query-string secrets leak into access logs, referrer headers and CDN
+      caches; this is a weaker posture than the header-based Advertising API scheme.
+authorization:
+  model: role-based, granted per ad account by the advertiser
+  roles:
+    - name: ORG_ADMIN
+      scope: organization
+      description: >-
+        Organization administrator. Required to update account spending caps. getAdminOrgs returns
+        the organizations where the caller holds this role.
+    - name: ACC_ADMIN
+      scope: ad account
+      description: Ad account administrator.
+    - name: ACC_OPERATOR
+      scope: ad account
+      description: Ad account operator.
+    - name: ACC_VIEWER
+      scope: ad account
+      description: Ad account read-only viewer.
+  assignment_operations:
+    - openapi/news-break-advertising-openapi.yml#addAdAccountUser
+    - openapi/news-break-advertising-openapi.yml#deleteAdAccountUser
+  enforcement: >-
+    Authorization failures surface as return code 403 (Permission denied) inside an HTTP 200
+    response body. Missing credentials return 4031 (Not login); a bad token returns 4033
+    (Invalid access token).
+gaps:
+  - No documented token lifetime, expiry or rotation policy.
+  - No OAuth 2.0 or OpenID Connect; therefore no delegated authorization and no scopes.
+  - No documented token revocation endpoint.
+  - No mTLS, no request signing, no proof-of-possession.
+  - The MSP Reporting API passes the secret in the query string rather than a header.
+see_also:
+  - errors/news-break-problem-types.yml
+  - conventions/news-break-conventions.yml

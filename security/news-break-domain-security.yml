@@ -1,0 +1,63 @@
+generated: '2026-08-01'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.newsbreak.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  8 23:59:59 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: advertising-api.newsbreak.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 29 23:43:59 2026 GMT
+  hsts: true
+  hsts_max_age: 259200
+- host: business.newsbreak.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Oct  9 23:59:59 2026 GMT
+  hsts: false
+- host: msp-platform.newsbreak.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 15 12:54:26 2026 GMT
+  hsts: true
+  hsts_max_age: 15724800
+  hsts_include_subdomains: true
+- host: doc.msp.newsbreak.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 15 12:56:36 2026 GMT
+  hsts: true
+  hsts_max_age: 15724800
+  hsts_include_subdomains: true
+findings:
+- severity: notable
+  host: business.newsbreak.com
+  finding: >-
+    The Advertising API host - the one that carries the Access-Token bearer credential on every
+    request - negotiates only TLSv1.2 and serves NO Strict-Transport-Security header, while every
+    other NewsBreak host in scope is TLSv1.3 with HSTS. It is the weakest transport posture on the
+    estate and it is the host handling the secrets.
+- severity: notable
+  domain: newsbreak.com
+  finding: >-
+    No CAA record and no DNSSEC. Any CA can issue for newsbreak.com and its subdomains, and DNS
+    answers are unauthenticated.
+- severity: minor
+  domain: newsbreak.com
+  finding: DMARC policy is p=quarantine rather than p=reject.
+- severity: minor
+  host: advertising-api.newsbreak.com
+  finding: >-
+    HSTS max-age is 259200 (3 days), below the 31536000 (1 year) preload threshold, and does not
+    set includeSubDomains.
+domains:
+- domain: newsbreak.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

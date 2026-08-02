@@ -1,0 +1,33 @@
+generated: '2026-08-01'
+method: generated
+source: openapi/news-break-advertising-openapi.yml
+note: >-
+  Native Arazzo 1.0.1 workflows authored against the NewsBreak Advertising API. Every operationId
+  referenced exists verbatim in the linked OpenAPI document. Success is asserted on the response
+  body field `code == 0` rather than the HTTP status line, because NewsBreak returns HTTP 200 for
+  both success and most failures.
+workflows:
+  - file: news-break-launch-campaign.yml
+    workflowId: launch-newsbreak-campaign
+    title: Launch a NewsBreak advertising campaign
+    summary: >-
+      Resolve organization and ad account, create a campaign, attach a tracking event, create the ad
+      set with budget/bidding/platforms, upload the creative to the NewsBreak CDN, and create the ad.
+    operations:
+      - getAdminOrgs
+      - getAdAccounts
+      - createCampaign
+      - getEvents
+      - createAdSet
+      - uploadAdAssets
+      - createAd
+  - file: news-break-pause-and-report.yml
+    workflowId: report-and-pause-campaign
+    title: Report on a NewsBreak ad account and pause underperforming campaigns
+    summary: >-
+      Run a last-7-days synchronous report for an ad account, page its active campaigns, then
+      toggle a chosen campaign OFF.
+    operations:
+      - runSynchronousReport
+      - getCampaigns
+      - updateCampaignStatus
