@@ -1,0 +1,319 @@
+{
+  "item": [
+    {
+      "id": "da75ed3b-d11b-4a41-96a7-4bd73d43ed9c",
+      "name": "Reporting",
+      "description": {
+        "content": "Aggregated monetization performance reporting for MSP organizations and apps.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1fcfe06f-dbd1-4d98-a25b-df11a4e5fdbd",
+          "name": "Get a monetization report",
+          "request": {
+            "name": "Get a monetization report",
+            "description": {
+              "content": "Return a monetization performance report for an organization and app over a date range, optionally broken down by dimension and restricted to a chosen metric set. Credentials (`org_id`, `app_id`, `token`) are passed as query parameters.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "reporting"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "org_id",
+                  "value": "<integer>",
+                  "description": "(Required) Organization ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "app_id",
+                  "value": "<integer>",
+                  "description": "(Required) App ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "token",
+                  "value": "<string>",
+                  "description": "(Required) API token."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "(Required) Start date of the report, formatted YYYY-MM-DD."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "(Required) End date of the report, formatted YYYY-MM-DD."
+                },
+                {
+                  "disabled": false,
+                  "key": "timezone",
+                  "value": "UTC",
+                  "description": "Report timezone. Defaults to UTC."
+                },
+                {
+                  "disabled": false,
+                  "key": "breakdown",
+                  "value": "<string>",
+                  "description": "Dimensions to break the report down by. None are selected by default. Repeat the parameter for multiple dimensions."
+                },
+                {
+                  "disabled": false,
+                  "key": "breakdown",
+                  "value": "<string>",
+                  "description": "Dimensions to break the report down by. None are selected by default. Repeat the parameter for multiple dimensions."
+                },
+                {
+                  "disabled": false,
+                  "key": "metrics",
+                  "value": "<string>",
+                  "description": "Metrics to return. Defaults to revenue, imp and ecpm. Repeat the parameter for multiple metrics."
+                },
+                {
+                  "disabled": false,
+                  "key": "metrics",
+                  "value": "<string>",
+                  "description": "Metrics to return. Defaults to revenue, imp and ecpm. Repeat the parameter for multiple metrics."
+                },
+                {
+                  "disabled": false,
+                  "key": "filter",
+                  "value": "<string>",
+                  "description": "Filter value. Requires the corresponding breakdown dimension to be selected."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "764aef5d-41c7-4716-8e12-064206fefded",
+              "name": "A report. On success the body is an array of report rows. On failure the body carries a non-zero `code` and an `errMsg` (see Return Codes).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reporting"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "org_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "app_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "UTC"
+                    },
+                    {
+                      "key": "breakdown",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "breakdown",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metrics",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metrics",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"app_id\": 2,\n    \"seat\": \"bidderA\",\n    \"date\": \"2024-12-15\",\n    \"ecpm\": 110,\n    \"org_id\": 111,\n    \"revenue\": 11\n  },\n  {\n    \"app_id\": 2,\n    \"seat\": \"bidderA\",\n    \"date\": \"2024-12-16\",\n    \"ecpm\": 135.1899,\n    \"org_id\": 111,\n    \"revenue\": 534\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dac06370-a04a-4db2-9a7d-153b1ddc0484",
+              "name": "Permission denied, not logged in, invalid access token, or rate limit exceeded (return codes 403 / 4031 / 4033 / 4034).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "reporting"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "org_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "app_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "timezone",
+                      "value": "UTC"
+                    },
+                    {
+                      "key": "breakdown",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "breakdown",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metrics",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metrics",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filter",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "token",
+                      "value": "<API Key>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 1904,\n  \"errMsg\": \"string\",\n  \"list\": [\n    {\n      \"date\": \"string\",\n      \"org_id\": 2025,\n      \"app_id\": 5097,\n      \"os\": \"string\",\n      \"seat\": \"string\",\n      \"placement_name\": \"string\",\n      \"imp\": 1666,\n      \"revenue\": 4152.122337020836,\n      \"payout_revenue\": 2048.968392905489,\n      \"ecpm\": 6690.675867115819,\n      \"seat_ad_unit\": \"string\",\n      \"click\": 5979\n    },\n    {\n      \"date\": \"string\",\n      \"org_id\": 5220,\n      \"app_id\": 8232,\n      \"os\": \"string\",\n      \"seat\": \"string\",\n      \"placement_name\": \"string\",\n      \"imp\": 5666,\n      \"revenue\": 5786.673871131727,\n      \"payout_revenue\": 5292.222516725605,\n      \"ecpm\": 4108.307821472658,\n      \"seat_ad_unit\": \"string\",\n      \"click\": 2207\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://msp-platform.newsbreak.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "token"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "query"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "36774103-634b-4e39-a0d4-683625ce18ed",
+    "name": "NewsBreak MSP Monetization Reporting API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The NewsBreak MSP API for Business is the monetization-side interface NewsBreak provides to supply partners and publishers running the NewsBreak MSP (monetization service platform). The Reporting API returns aggregated ad monetization performance — impressions, revenue, publisher net revenue, eCPM, fill and request counts, clicks and CTR — broken down by date, operating system, bidder seat, placement, bidder ad unit and device type.\n\nThis document was generated by API Evangelist from the operations NewsBreak publishes at https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/. NewsBreak does not publish a machine-readable OpenAPI definition for this API; every path, parameter, enumeration and response field here is transcribed from the published reference. A `/swagger.json` path does exist on the API host but returns HTTP 200 with a zero-byte body, so it is not a usable contract.\n\nContact Support:\n Name: NewsBreak Ad Support\n Email: adsupport@newsbreak.com",
+      "type": "text/plain"
+    }
+  }
+}

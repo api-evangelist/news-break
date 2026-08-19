@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "NewsBreak MSP Monetization Reporting API",
+    "version": "v0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "token",
+      "value": "{{token}}",
+      "placement": "query"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reporting",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a monetization report",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://msp-platform.newsbreak.com/reporting",
+            "params": [
+              {
+                "name": "org_id",
+                "value": "",
+                "type": "query",
+                "description": "Organization ID."
+              },
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "query",
+                "description": "App ID."
+              },
+              {
+                "name": "token",
+                "value": "",
+                "type": "query",
+                "description": "API token."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the report, formatted YYYY-MM-DD."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the report, formatted YYYY-MM-DD."
+              },
+              {
+                "name": "timezone",
+                "value": "",
+                "type": "query",
+                "description": "Report timezone. Defaults to UTC."
+              },
+              {
+                "name": "breakdown",
+                "value": "",
+                "type": "query",
+                "description": "Dimensions to break the report down by. None are selected by default. Repeat the parameter for multiple dimensions."
+              },
+              {
+                "name": "metrics",
+                "value": "",
+                "type": "query",
+                "description": "Metrics to return. Defaults to revenue, imp and ecpm. Repeat the parameter for multiple metrics."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "Filter value. Requires the corresponding breakdown dimension to be selected."
+              }
+            ]
+          },
+          "docs": "Return a monetization performance report for an organization and app over a date range, optionally broken down by dimension and restricted to a chosen metric set. Credentials (`org_id`, `app_id`, `token`) are passed as query parameters."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

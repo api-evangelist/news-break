@@ -2,12 +2,13 @@ generated: '2026-08-01'
 method: derived
 status: candidate
 source: openapi/news-break-advertising-openapi.yml
-summary: NewsBreak publishes NO official or hosted MCP server. Searched the NewsBreak documentation, help centers,
-  npm (@modelcontextprotocol and newsbreak/particle scopes), PyPI and the public MCP registries on 2026-08-01 and
-  found nothing first-party or third-party. This is a CANDIDATE tool surface derived mechanically from the 27 documented
-  Advertising API operations - one tool per operationId - so an agent implementer has a grounded starting point.
-  Every tool below inherits its real input schema from the parameters and requestBody of the operation it names.
-  It is not, and must not be represented as, a NewsBreak product.
+summary: NewsBreak publishes NO official or hosted MCP server. Searched the NewsBreak documentation, help
+  centers, npm (@modelcontextprotocol and newsbreak/particle scopes), PyPI and the public MCP registries
+  on 2026-08-01 and found nothing first-party or third-party. This is a CANDIDATE tool surface derived
+  mechanically from the 27 documented Advertising API operations - one tool per operationId - so an agent
+  implementer has a grounded starting point. Every tool below inherits its real input schema from the
+  parameters and requestBody of the operation it names. It is not, and must not be represented as, a NewsBreak
+  product.
 server:
   name: news-break
   published: false
@@ -21,12 +22,12 @@ authentication:
   name: Access-Token
   detail: authentication/news-break-authentication.yml
 agent_cautions:
-- No idempotency contract - create_campaign, create_ad_set, create_ad, create_ad_account and upload_ad_asset are
-  unsafe to retry and will duplicate on a repeat call. See conventions/news-break-conventions.yml.
-- Errors arrive as HTTP 200 with a non-zero body `code`. A tool wrapper MUST parse the body and surface code !=
-  0 as a failure, or agents will treat throttling and permission denials as success.
-- set_account_spending_cap and the delete_* tools are irreversible money/state operations and should require human
-  confirmation.
+- No idempotency contract - create_campaign, create_ad_set, create_ad, create_ad_account and upload_ad_asset
+  are unsafe to retry and will duplicate on a repeat call. See conventions/news-break-conventions.yml.
+- Errors arrive as HTTP 200 with a non-zero body `code`. A tool wrapper MUST parse the body and surface
+  code != 0 as a failure, or agents will treat throttling and permission denials as success.
+- set_account_spending_cap and the delete_* tools are irreversible money/state operations and should require
+  human confirmation.
 - No rate-limit headers exist; budget against the published QPS/QPM/QPD tier in rate-limits/news-break-rate-limits.yml.
 tools:
 - name: list_organizations
@@ -195,3 +196,9 @@ coverage:
   rest_operations: 27
   tools_derived: 27
   tools_published_by_provider: 0
+deployment:
+  mode: none
+  verified: derived
+  tools: 27
+  checked: '2026-08-12'
+  source: catalog MCP census

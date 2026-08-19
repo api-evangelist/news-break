@@ -1,0 +1,663 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "NewsBreak Advertising API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Access-Token",
+      "value": "{{Access-Token}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organization",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get org admin's organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business.newsbreak.com/business-api/v1/org/admin-orgs"
+          },
+          "docs": "Get all organizations where the calling user holds the ORG_ADMIN role. The caller is identified by the access token — no request parameters are required."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ad Account",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an ad account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-account/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an ad account under an organization."
+        },
+        {
+          "info": {
+            "name": "Get ad accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-account/getGroupsByOrgIds",
+            "params": [
+              {
+                "name": "orgIds",
+                "value": "",
+                "type": "query",
+                "description": "IDs of organizations."
+              }
+            ]
+          },
+          "docs": "Get all ad accounts' IDs and names for each organization, grouped by organization ID and name. Users only receive ad accounts they have access to."
+        },
+        {
+          "info": {
+            "name": "Add a user to an ad account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-account/addUser",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Grant a user access to an ad account under an organization. If the user does not yet exist, an account is created and an invitation email is sent. The user is also granted an organization-level membership role if they don't already have one."
+        },
+        {
+          "info": {
+            "name": "Remove a user from an ad account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-account/deleteUser",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Revoke a user's access to an ad account under an organization. This removes only the user's ad-account-level role; any organization-level role is left unchanged."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Campaign",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/campaign/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a campaign under an ad account."
+        },
+        {
+          "info": {
+            "name": "Get campaigns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business.newsbreak.com/business-api/v1/campaign/getList",
+            "params": [
+              {
+                "name": "adAccountId",
+                "value": "",
+                "type": "query",
+                "description": "ID of ad account."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query to search."
+              },
+              {
+                "name": "onlineStatus",
+                "value": "",
+                "type": "query",
+                "description": "Campaign status filter."
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query",
+                "description": "Page number."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Page size."
+              }
+            ]
+          },
+          "docs": "Get all campaigns for an ad account. Optionally filter to return only certain campaigns."
+        },
+        {
+          "info": {
+            "name": "Update a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business.newsbreak.com/business-api/v1/campaign/update/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the campaign to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a campaign."
+        },
+        {
+          "info": {
+            "name": "Update campaign status (ON/OFF)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business.newsbreak.com/business-api/v1/campaign/updateStatus/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the campaign to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enable or disable a campaign."
+        },
+        {
+          "info": {
+            "name": "Delete a campaign",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://business.newsbreak.com/business-api/v1/campaign/delete/:campaignId",
+            "params": [
+              {
+                "name": "campaignId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the campaign to delete."
+              }
+            ]
+          },
+          "docs": "Delete a campaign. The returned campaign has onlineStatus DELETED."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ad Set",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an ad set",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-set/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an ad set under a campaign, including budget, bidding, schedule and targeting."
+        },
+        {
+          "info": {
+            "name": "Get ad sets",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-set/getList",
+            "params": [
+              {
+                "name": "adAccountId",
+                "value": "",
+                "type": "query",
+                "description": "ID of ad account."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query to search."
+              },
+              {
+                "name": "onlineStatus",
+                "value": "",
+                "type": "query",
+                "description": "Ad set status filter."
+              },
+              {
+                "name": "campaignIds",
+                "value": "",
+                "type": "query",
+                "description": "Get ad sets in the given campaigns only."
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query",
+                "description": "Page number."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Page size."
+              }
+            ]
+          },
+          "docs": "Get all ad sets for an ad account. Optionally filter by search text, status or campaign."
+        },
+        {
+          "info": {
+            "name": "Update an ad set",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-set/update/:adSetId",
+            "params": [
+              {
+                "name": "adSetId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the ad set to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an ad set. All body fields are optional; only supplied fields are changed."
+        },
+        {
+          "info": {
+            "name": "Update ad set status (ON/OFF)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-set/updateStatus/:adSetId",
+            "params": [
+              {
+                "name": "adSetId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the ad set to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enable or disable an ad set."
+        },
+        {
+          "info": {
+            "name": "Delete an ad set",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://business.newsbreak.com/business-api/v1/ad-set/delete/:adSetId",
+            "params": [
+              {
+                "name": "adSetId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the ad set to delete."
+              }
+            ]
+          },
+          "docs": "Delete an ad set."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Ad",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/ad/create",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an ad under an ad set, with its creative. Creative asset URLs must first be uploaded through uploadAdAssets."
+        },
+        {
+          "info": {
+            "name": "Get ads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business.newsbreak.com/business-api/v1/ad/getList",
+            "params": [
+              {
+                "name": "adAccountId",
+                "value": "",
+                "type": "query",
+                "description": "ID of ad account."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Query to search."
+              },
+              {
+                "name": "onlineStatus",
+                "value": "",
+                "type": "query",
+                "description": "Ad status filter."
+              },
+              {
+                "name": "campaignIds",
+                "value": "",
+                "type": "query",
+                "description": "Get ads in the given campaigns only."
+              },
+              {
+                "name": "adSetIds",
+                "value": "",
+                "type": "query",
+                "description": "Get ads in the given ad sets only."
+              },
+              {
+                "name": "pageNo",
+                "value": "",
+                "type": "query",
+                "description": "Page number."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Page size."
+              }
+            ]
+          },
+          "docs": "Get all ads for an ad account. Optionally filter by search text, status, campaign or ad set."
+        },
+        {
+          "info": {
+            "name": "Update an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business.newsbreak.com/business-api/v1/ad/update/:adId",
+            "params": [
+              {
+                "name": "adId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the ad to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an ad and/or its creative."
+        },
+        {
+          "info": {
+            "name": "Update ad status (ON/OFF)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://business.newsbreak.com/business-api/v1/ad/updateStatus/:adId",
+            "params": [
+              {
+                "name": "adId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the ad to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Enable or disable an ad."
+        },
+        {
+          "info": {
+            "name": "Delete an ad",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://business.newsbreak.com/business-api/v1/ad/delete/:adId",
+            "params": [
+              {
+                "name": "adId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the ad to delete."
+              }
+            ]
+          },
+          "docs": "Delete an ad."
+        },
+        {
+          "info": {
+            "name": "Upload single ad assets",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/ad/uploadAssets",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a single creative asset to the NewsBreak CDN. Only asset URLs returned by this operation are accepted by createAd / updateAd. Optionally saves the media to the ad account's Media Library."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Report",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Run a synchronous report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/reports/getIntegratedReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Run a synchronous report task and return the rows inline."
+        },
+        {
+          "info": {
+            "name": "Create a custom report",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/reports/createReport",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a saved custom report definition that can later be run by ID."
+        },
+        {
+          "info": {
+            "name": "Get a custom report by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business.newsbreak.com/business-api/v1/reports/getReportById",
+            "params": [
+              {
+                "name": "reportId",
+                "value": "",
+                "type": "query",
+                "description": "ID of this report."
+              }
+            ]
+          },
+          "docs": "Run a previously created custom report and return its rows."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Account Billing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get account spending cap",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/balance/getAccountBudgetInfo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Get account remaining budget, account lifetime spending cap and account total spend by account IDs. Users only receive accounts that have an account-level cap and that they have access to. The number of account IDs cannot be 0 or more than 500."
+        },
+        {
+          "info": {
+            "name": "Update account spending cap",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://business.newsbreak.com/business-api/v1/balance/updateAccountsBudget",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update account-level spending caps for multiple ad accounts. Only the organization admin can update the spending cap. Each account is processed individually and a per-account result is returned."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Event Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://business.newsbreak.com/business-api/v1/event/getList/:adAccountId",
+            "params": [
+              {
+                "name": "adAccountId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the ad account of the events."
+              },
+              {
+                "name": "os",
+                "value": "",
+                "type": "query",
+                "description": "Filter events by operating system. Use os= (empty) to filter for web events. Omit to get all events."
+              }
+            ]
+          },
+          "docs": "Get all conversion tracking events (pixel or postback) for an ad account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
