@@ -34,32 +34,23 @@ tags:
 - Analytics
 - Content
 apis:
-- aid: news-break:advertising
-  name: NewsBreak Advertising API
-  description: 'The NewsBreak Advertising API, also published as the NewsBreak API for Business,
-    lets technology companies, direct advertisers and agencies programmatically manage the NewsBreak
-    Ads Manager at scale. Twenty-seven documented operations cover organizations, ad accounts and
-    ad-account user roles, campaigns, ad sets (budget, bid type, schedule, inventory platforms and
-    audience targeting), ads and their creatives, creative asset upload to the NewsBreak CDN,
-    account-level spending caps, conversion tracking events, and synchronous plus saved custom
-    performance reports. Authentication is a single Access-Token header generated in the Ad Manager.'
+- aid: news-break:news-break-account-billing-api
+  name: News Break Account Billing API
+  description: Account-level spending caps and remaining budget.
   humanURL: https://advertising-api.newsbreak.com/hc/en-us
   baseURL: https://business.newsbreak.com/business-api/v1
   tags:
-  - Advertising
-  - AdTech
-  - Campaign Management
-  - Reporting
-  - Audience Targeting
+  - Account Billing
   properties:
   - type: OpenAPI
-    url: openapi/news-break-advertising-openapi.yml
+    url: openapi/news-break-account-billing-api-openapi.yml
   - type: Documentation
     url: https://advertising-api.newsbreak.com/hc/en-us
   - type: APIReference
     url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
   - type: GettingStarted
-    url: https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
   - type: Overview
     url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
   - type: Authentication
@@ -72,28 +63,8 @@ apis:
     url: conventions/news-break-conventions.yml
   - type: DataModel
     url: data-model/news-break-data-model.yml
-  - type: Overlay
-    url: overlays/news-break-advertising-overlay.yaml
   - type: Support
     url: mailto:adsupport@newsbreak.com
-- aid: news-break:monetization-reporting
-  name: NewsBreak MSP Monetization Reporting API
-  description: 'The NewsBreak MSP API for Business is the monetization-side interface NewsBreak
-    provides to publishers and supply partners running the NewsBreak MSP monetization service
-    platform. The Reporting API returns aggregated ad monetization performance - impressions, gross
-    revenue, publisher net revenue, eCPM, fill and request counts, clicks and CTR - broken down by
-    date, operating system, bidder seat, placement, bidder ad unit and device type. Credentials are
-    passed as org_id, app_id and token query parameters.'
-  humanURL: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
-  baseURL: https://msp-platform.newsbreak.com
-  tags:
-  - Monetization
-  - Reporting
-  - Publishing
-  - AdTech
-  properties:
-  - type: OpenAPI
-    url: openapi/news-break-monetization-reporting-openapi.yml
   - type: Documentation
     url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
   - type: APIReference
@@ -106,14 +77,360 @@ apis:
     url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
   - type: ErrorCatalog
     url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
-  - type: Overlay
-    url: overlays/news-break-monetization-reporting-overlay.yaml
+- aid: news-break:news-break-ad-account-api
+  name: News Break Ad Account API
+  description: Ad accounts under an organization and the users who can access them.
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Ad Account
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-ad-account-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+- aid: news-break:news-break-ad-api
+  name: News Break Ad API
+  description: Ads and their creatives, plus creative asset upload.
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Ad
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-ad-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+- aid: news-break:news-break-ad-set-api
+  name: News Break Ad Set API
+  description: 'Ad sets: budget, bidding, schedule, platforms and audience targeting.'
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Ad Set
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-ad-set-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+- aid: news-break:news-break-campaign-api
+  name: News Break Campaign API
+  description: 'Campaigns: the objective-level container for ad sets.'
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Campaign
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-campaign-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+- aid: news-break:news-break-event-management-api
+  name: News Break Event Management API
+  description: Conversion tracking events (pixel and postback).
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Event Management
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-event-management-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+- aid: news-break:news-break-organization-api
+  name: News Break Organization API
+  description: Organizations the calling user administers.
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Organization
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-organization-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+- aid: news-break:news-break-report-api
+  name: News Break Report API
+  description: Synchronous and saved custom performance reports.
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Report
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-report-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
+- aid: news-break:news-break-reporting-api
+  name: News Break Reporting API
+  description: Aggregated monetization performance reporting for MSP organizations and apps.
+  humanURL: https://advertising-api.newsbreak.com/hc/en-us
+  baseURL: https://business.newsbreak.com/business-api/v1
+  tags:
+  - Reporting
+  properties:
+  - type: OpenAPI
+    url: openapi/news-break-reporting-api-openapi.yml
+  - type: Documentation
+    url: https://advertising-api.newsbreak.com/hc/en-us
+  - type: APIReference
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference
+  - type: GettingStarted
+    url: >-
+      https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide
+  - type: Overview
+    url: https://advertising-api.newsbreak.com/hc/en-us/categories/37825514043789-API-Overview
+  - type: Authentication
+    url: authentication/news-break-authentication.yml
+  - type: RateLimits
+    url: rate-limits/news-break-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/news-break-problem-types.yml
+  - type: Conventions
+    url: conventions/news-break-conventions.yml
+  - type: DataModel
+    url: data-model/news-break-data-model.yml
+  - type: Support
+    url: mailto:adsupport@newsbreak.com
+  - type: Documentation
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/
+  - type: APIReference
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/
+  - type: ChangeLog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/whats-new
+  - type: Versioning
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/overview/versioning
+  - type: RateLimits
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/get-started/rate-limits
+  - type: ErrorCatalog
+    url: https://doc.msp.newsbreak.com/business-api-doc/docs/api-reference/return-codes
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/news-break-advertising-overlay.yaml
+- type: Overlay
+  url: overlays/news-break-monetization-reporting-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/news-break-agentic-access.yml
 - type: DomainSecurity
