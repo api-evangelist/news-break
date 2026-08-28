@@ -1,7 +1,7 @@
-generated: '2026-08-01'
-method: generated
-source: openapi/news-break-advertising-openapi.yml
-note: >-
+x-generated: '2026-08-01'
+x-method: generated
+x-source: openapi/news-break-advertising-openapi.yml
+x-note: >-
   Native Arazzo 1.0.1 workflows authored against the NewsBreak Advertising API. Every operationId
   referenced exists verbatim in the linked OpenAPI document. Success is asserted on the response
   body field `code == 0` rather than the HTTP status line, because NewsBreak returns HTTP 200 for
