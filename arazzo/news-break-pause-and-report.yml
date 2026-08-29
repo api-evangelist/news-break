@@ -6,6 +6,17 @@ info:
     Pull a last-7-days performance report for an ad account, list its campaigns, and pause a chosen
     campaign by toggling its status to OFF. Read-only steps are safe to retry; the status toggle is
     not idempotent in the sense that it has no dedup key, but it IS naturally convergent.
+  x-realizes-capability-ids:
+  - BC-3760.60
+  x-capability-derivation:
+    method: 'deterministic join: sourceDescriptions -> per-tag OpenAPI -> tag/capability edge. No classification at this step.'
+    min_confidence: 0.7
+    sources:
+    - capability_id: BC-3760.60
+      capability_name: Advertising Revenue Reporting
+      spec: news-break-report-api-openapi.yml
+      confidence: 0.8
+    model: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities, CC BY 4.0
 sourceDescriptions:
 - name: campaignApi
   url: ../openapi/news-break-campaign-api-openapi.yml
