@@ -13,6 +13,18 @@ description: 'NewsBreak is the leading local news and information platform in th
   Monetization Reporting API serves the supply side, returning impressions, revenue, publisher net
   revenue and eCPM for publishers and monetization partners. NewsBreak also publishes an llms.txt
   that scopes AI access to its verified local-business content surface.'
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://static.newsbreak.com/static/favicon-32x32.png
 url: https://raw.githubusercontent.com/api-evangelist/news-break/refs/heads/main/apis.yml
 x-type: company
