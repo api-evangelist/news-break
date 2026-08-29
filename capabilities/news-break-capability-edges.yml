@@ -1,0 +1,44 @@
+slug: news-break
+provider: News Break
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Reporting
+  spec_file: news-break-reporting-api-openapi.yml
+  capability_id: BC-3760.60
+  capability_id_l1: BC-3760
+  capability_name: Advertising Revenue Reporting
+  confidence: 0.82
+  evidence: GET /reporting getMonetizationReport Get a monetization report; 'impressions, revenue, publisher
+    net revenue, eCPM, fill and request counts, clicks and CTR'
+  reason: Aggregated ad monetization revenue and delivery reporting for supply partners and publishers
+    — advertising revenue reporting.
+- tag: Ad
+  spec_file: news-break-ad-api-openapi.yml
+  capability_id: BC-3760.40
+  capability_id_l1: BC-3760
+  capability_name: Ad Trafficking & Operations
+  confidence: 0.8
+  evidence: POST /ad/create Create an ad; POST /ad/uploadAssets Upload single ad assets; schema 'Creative'
+  reason: Creating, updating, status-toggling ads and uploading creative assets is ad trafficking and
+    operations on a media owner's ad platform.
+- tag: Report
+  spec_file: news-break-report-api-openapi.yml
+  capability_id: BC-3760.60
+  capability_id_l1: BC-3760
+  capability_name: Advertising Revenue Reporting
+  confidence: 0.8
+  evidence: POST /reports/getIntegratedReport Run a synchronous report; 'run multidimensional performance
+    reports'
+  reason: Campaign performance reporting for advertisers on the NewsBreak ad platform, matching advertising
+    revenue and delivery reporting.
