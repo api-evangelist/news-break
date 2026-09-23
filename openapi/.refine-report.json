@@ -1,0 +1,38 @@
+{
+  "provider": "news-break",
+  "sources": [
+    "_original/news-break-advertising-openapi.yml",
+    "_original/news-break-monetization-reporting-openapi.yml"
+  ],
+  "outputs": [
+    "news-break-account-billing-api-openapi.yml",
+    "news-break-ad-api-openapi.yml",
+    "news-break-ad-account-api-openapi.yml",
+    "news-break-ad-set-api-openapi.yml",
+    "news-break-campaign-api-openapi.yml",
+    "news-break-event-management-api-openapi.yml",
+    "news-break-organization-api-openapi.yml",
+    "news-break-report-api-openapi.yml",
+    "news-break-reporting-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (2 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "news-break-advertising-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "news-break-monetization-reporting-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "news-break-account-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-ad-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-ad-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-ad-set-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-campaign-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-event-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-report-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "news-break-reporting-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
