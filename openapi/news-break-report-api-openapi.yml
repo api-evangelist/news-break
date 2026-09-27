@@ -125,99 +125,6 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    ReportRow:
-      type: object
-      description: One row of report data.
-      properties:
-        date:
-          type: string
-          description: Date.
-        hour:
-          type: string
-          description: Hour.
-        adAccountId:
-          type: string
-          description: Ad account ID.
-        adAccount:
-          type: string
-          description: Ad account name.
-        orgId:
-          type: string
-          description: Organization ID.
-        organization:
-          type: string
-          description: Organization name.
-        campaignId:
-          type: string
-          description: Campaign ID.
-        campaign:
-          type: string
-          description: Campaign name.
-        adSetId:
-          type: string
-          description: Ad set ID.
-        adSet:
-          type: string
-          description: Ad set name.
-        adId:
-          type: string
-          description: Ad ID.
-        ad:
-          type: string
-          description: Ad name.
-        placement:
-          type: string
-          description: Placement name.
-        country:
-          type: string
-          description: Country name.
-        costDecimal:
-          type: number
-          format: double
-          description: Cost in cents.
-        cost:
-          type: integer
-          description: Cost in cents.
-        impression:
-          type: integer
-          description: Impressions.
-        click:
-          type: integer
-          description: Clicks.
-        conversion:
-          type: integer
-          description: Conversions.
-        conversionValueDecimal:
-          type: number
-          format: double
-          description: Total conversion value in cents.
-        conversionValue:
-          type: integer
-          description: Total conversion value.
-        cpmDecimal:
-          type: number
-          format: double
-          description: CPM in cents, -1.0 if N/A.
-        cpm:
-          type: integer
-          description: CPM in cents, -1 if N/A.
-        cpcDecimal:
-          type: number
-          format: double
-          description: CPC in cents, -1.0 if N/A.
-        cpc:
-          type: integer
-          description: CPC in cents, -1 if N/A.
-        cpaDecimal:
-          type: number
-          format: double
-          description: Cost per action in cents, -1.0 if N/A.
-        cpa:
-          type: integer
-          description: Cost per action in cents, -1 if N/A.
-        ctr:
-          type: number
-          description: Click-through rate.
     ReportRowsResponse:
       type: object
       description: Envelope carrying report rows.
@@ -331,6 +238,99 @@ components:
         data:
           type: object
           description: Response object.
+    ReportRow:
+      type: object
+      description: One row of report data.
+      properties:
+        date:
+          type: string
+          description: Date.
+        hour:
+          type: string
+          description: Hour.
+        adAccountId:
+          type: string
+          description: Ad account ID.
+        adAccount:
+          type: string
+          description: Ad account name.
+        orgId:
+          type: string
+          description: Organization ID.
+        organization:
+          type: string
+          description: Organization name.
+        campaignId:
+          type: string
+          description: Campaign ID.
+        campaign:
+          type: string
+          description: Campaign name.
+        adSetId:
+          type: string
+          description: Ad set ID.
+        adSet:
+          type: string
+          description: Ad set name.
+        adId:
+          type: string
+          description: Ad ID.
+        ad:
+          type: string
+          description: Ad name.
+        placement:
+          type: string
+          description: Placement name.
+        country:
+          type: string
+          description: Country name.
+        costDecimal:
+          type: number
+          format: double
+          description: Cost in cents.
+        cost:
+          type: integer
+          description: Cost in cents.
+        impression:
+          type: integer
+          description: Impressions.
+        click:
+          type: integer
+          description: Clicks.
+        conversion:
+          type: integer
+          description: Conversions.
+        conversionValueDecimal:
+          type: number
+          format: double
+          description: Total conversion value in cents.
+        conversionValue:
+          type: integer
+          description: Total conversion value.
+        cpmDecimal:
+          type: number
+          format: double
+          description: CPM in cents, -1.0 if N/A.
+        cpm:
+          type: integer
+          description: CPM in cents, -1 if N/A.
+        cpcDecimal:
+          type: number
+          format: double
+          description: CPC in cents, -1.0 if N/A.
+        cpc:
+          type: integer
+          description: CPC in cents, -1 if N/A.
+        cpaDecimal:
+          type: number
+          format: double
+          description: Cost per action in cents, -1.0 if N/A.
+        cpa:
+          type: integer
+          description: Cost per action in cents, -1 if N/A.
+        ctr:
+          type: number
+          description: Click-through rate.
   securitySchemes:
     AccessToken:
       type: apiKey
