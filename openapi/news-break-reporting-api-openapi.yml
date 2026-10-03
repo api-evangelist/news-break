@@ -148,21 +148,6 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    Envelope:
-      type: object
-      description: The error envelope. `code` 0 is successful; any other value is an error described by `errMsg` (see Return Codes).
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful.
-        errMsg:
-          type: string
-          description: Error message when the return code is not 0.
-        list:
-          type: array
-          description: Report rows.
-          items:
-            $ref: '#/components/schemas/ReportRow'
     ReportRow:
       type: object
       description: One row of monetization report data.
@@ -206,6 +191,21 @@ components:
         click:
           type: integer
           description: Click count.
+    Envelope:
+      type: object
+      description: The error envelope. `code` 0 is successful; any other value is an error described by `errMsg` (see Return Codes).
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful.
+        errMsg:
+          type: string
+          description: Error message when the return code is not 0.
+        list:
+          type: array
+          description: Report rows.
+          items:
+            $ref: '#/components/schemas/ReportRow'
   securitySchemes:
     ApiToken:
       type: apiKey

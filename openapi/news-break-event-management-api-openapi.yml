@@ -66,6 +66,19 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
+    Envelope:
+      type: object
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          description: Response object.
     Event:
       type: object
       description: A conversion tracking event (pixel or postback).
@@ -119,19 +132,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Event'
-    Envelope:
-      type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          description: Response object.
   securitySchemes:
     AccessToken:
       type: apiKey

@@ -249,26 +249,6 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    StatusRequest:
-      type: object
-      description: Toggle the ON/OFF status of a campaign, ad set or ad.
-      properties:
-        status:
-          type: string
-          description: Target status.
-          enum:
-          - 'ON'
-          - 'OFF'
-      required:
-      - status
-    UpdateCampaignRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Descriptive name of campaign.
-      required:
-      - name
     CampaignPageResponse:
       type: object
       description: Envelope carrying a page of campaigns.
@@ -298,59 +278,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Campaign'
-    CreateCampaignRequest:
-      type: object
-      properties:
-        adAccountId:
-          type: string
-          description: ID of ad account.
-        name:
-          type: string
-          description: Descriptive name of campaign.
-        objective:
-          type: string
-          description: Campaign objective.
-          enum:
-          - WEB_CONVERSION
-          - APP_CONVERSION
-          - REACH
-          - WEB_TRAFFIC
-          - APP_TRAFFIC
-        status:
-          type: string
-          description: Status of the campaign. Default is ON.
-          enum:
-          - 'ON'
-          - 'OFF'
-      required:
-      - adAccountId
-      - name
-      - objective
-    Envelope:
-      type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          description: Response object.
-    CampaignResponse:
-      type: object
-      description: Envelope carrying a single campaign.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          $ref: '#/components/schemas/Campaign'
     Campaign:
       type: object
       description: A NewsBreak advertising campaign.
@@ -399,6 +326,79 @@ components:
         updateTime:
           type: string
           description: Update time of the campaign (unix timestamp as string).
+    CreateCampaignRequest:
+      type: object
+      properties:
+        adAccountId:
+          type: string
+          description: ID of ad account.
+        name:
+          type: string
+          description: Descriptive name of campaign.
+        objective:
+          type: string
+          description: Campaign objective.
+          enum:
+          - WEB_CONVERSION
+          - APP_CONVERSION
+          - REACH
+          - WEB_TRAFFIC
+          - APP_TRAFFIC
+        status:
+          type: string
+          description: Status of the campaign. Default is ON.
+          enum:
+          - 'ON'
+          - 'OFF'
+      required:
+      - adAccountId
+      - name
+      - objective
+    UpdateCampaignRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Descriptive name of campaign.
+      required:
+      - name
+    StatusRequest:
+      type: object
+      description: Toggle the ON/OFF status of a campaign, ad set or ad.
+      properties:
+        status:
+          type: string
+          description: Target status.
+          enum:
+          - 'ON'
+          - 'OFF'
+      required:
+      - status
+    CampaignResponse:
+      type: object
+      description: Envelope carrying a single campaign.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          $ref: '#/components/schemas/Campaign'
+    Envelope:
+      type: object
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          description: Response object.
   securitySchemes:
     AccessToken:
       type: apiKey

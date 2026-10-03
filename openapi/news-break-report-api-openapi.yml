@@ -125,119 +125,6 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    ReportRowsResponse:
-      type: object
-      description: Envelope carrying report rows.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          properties:
-            rows:
-              type: array
-              items:
-                $ref: '#/components/schemas/ReportRow'
-    ReportRequest:
-      type: object
-      description: A report definition, shared by runSynchronousReport and createCustomReport.
-      properties:
-        name:
-          type: string
-          description: Name of this report.
-        timezone:
-          type: string
-          description: Valid timezone string, such as UTC, America/Los_Angeles or Asia/Shanghai. Default is PDT.
-        dateRange:
-          type: string
-          description: Date range of the report.
-          enum:
-          - FIXED
-          - YESTERDAY
-          - LAST_7_DAYS
-          - LAST_14_DAYS
-          - LAST_30_DAYS
-          - MONTH_TO_DATE
-          - QUARTER_TO_DATE
-          - TODAY
-        startDate:
-          type: string
-          description: Start date, formatted YYYY-MM-DD. Required when dateRange is FIXED.
-        endDate:
-          type: string
-          description: End date, formatted YYYY-MM-DD. Required when dateRange is FIXED.
-        filter:
-          type: string
-          description: Filter type.
-          enum:
-          - ORG
-          - AD_ACCOUNT
-          - CAMPAIGN
-          - AD_SET
-          - AD
-        dataSource:
-          type: string
-          description: Data source type. HOURLY is the official basis for income settlement on NewsBreak.
-          enum:
-          - HOURLY
-          - REALTIME
-        filterIds:
-          type: array
-          description: IDs matching the filter type.
-          items:
-            type: string
-        dimensions:
-          type: array
-          description: Report dimensions (UPPERCASE only). HOUR only works with dateRange YESTERDAY, TODAY or a 1-day FIXED range; DATE works with YESTERDAY, TODAY, LAST_7_DAYS, LAST_14_DAYS, LAST_30_DAYS, MONTH_TO_DATE or a FIXED range of at most 30 days.
-          items:
-            type: string
-            enum:
-            - DATE
-            - HOUR
-            - ORG
-            - AD_ACCOUNT
-            - CAMPAIGN
-            - AD_SET
-            - AD
-            - PLACEMENT
-        metrics:
-          type: array
-          description: Report metrics.
-          items:
-            type: string
-        emails:
-          type: array
-          description: Email recipients of the report.
-          items:
-            type: string
-        editors:
-          type: array
-          description: Users allowed to edit the report.
-          items:
-            type: string
-      required:
-      - name
-      - timezone
-      - dateRange
-      - dimensions
-      - metrics
-    Envelope:
-      type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          description: Response object.
     ReportRow:
       type: object
       description: One row of report data.
@@ -331,6 +218,119 @@ components:
         ctr:
           type: number
           description: Click-through rate.
+    ReportRowsResponse:
+      type: object
+      description: Envelope carrying report rows.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          properties:
+            rows:
+              type: array
+              items:
+                $ref: '#/components/schemas/ReportRow'
+    Envelope:
+      type: object
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          description: Response object.
+    ReportRequest:
+      type: object
+      description: A report definition, shared by runSynchronousReport and createCustomReport.
+      properties:
+        name:
+          type: string
+          description: Name of this report.
+        timezone:
+          type: string
+          description: Valid timezone string, such as UTC, America/Los_Angeles or Asia/Shanghai. Default is PDT.
+        dateRange:
+          type: string
+          description: Date range of the report.
+          enum:
+          - FIXED
+          - YESTERDAY
+          - LAST_7_DAYS
+          - LAST_14_DAYS
+          - LAST_30_DAYS
+          - MONTH_TO_DATE
+          - QUARTER_TO_DATE
+          - TODAY
+        startDate:
+          type: string
+          description: Start date, formatted YYYY-MM-DD. Required when dateRange is FIXED.
+        endDate:
+          type: string
+          description: End date, formatted YYYY-MM-DD. Required when dateRange is FIXED.
+        filter:
+          type: string
+          description: Filter type.
+          enum:
+          - ORG
+          - AD_ACCOUNT
+          - CAMPAIGN
+          - AD_SET
+          - AD
+        dataSource:
+          type: string
+          description: Data source type. HOURLY is the official basis for income settlement on NewsBreak.
+          enum:
+          - HOURLY
+          - REALTIME
+        filterIds:
+          type: array
+          description: IDs matching the filter type.
+          items:
+            type: string
+        dimensions:
+          type: array
+          description: Report dimensions (UPPERCASE only). HOUR only works with dateRange YESTERDAY, TODAY or a 1-day FIXED range; DATE works with YESTERDAY, TODAY, LAST_7_DAYS, LAST_14_DAYS, LAST_30_DAYS, MONTH_TO_DATE or a FIXED range of at most 30 days.
+          items:
+            type: string
+            enum:
+            - DATE
+            - HOUR
+            - ORG
+            - AD_ACCOUNT
+            - CAMPAIGN
+            - AD_SET
+            - AD
+            - PLACEMENT
+        metrics:
+          type: array
+          description: Report metrics.
+          items:
+            type: string
+        emails:
+          type: array
+          description: Email recipients of the report.
+          items:
+            type: string
+        editors:
+          type: array
+          description: Users allowed to edit the report.
+          items:
+            type: string
+      required:
+      - name
+      - timezone
+      - dateRange
+      - dimensions
+      - metrics
   securitySchemes:
     AccessToken:
       type: apiKey

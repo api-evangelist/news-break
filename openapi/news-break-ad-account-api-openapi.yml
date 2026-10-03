@@ -162,34 +162,6 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    AdAccountResponse:
-      type: object
-      description: Envelope carrying a single ad account.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          $ref: '#/components/schemas/AdAccount'
-    DeleteAdAccountUserRequest:
-      type: object
-      properties:
-        orgId:
-          type: string
-          description: ID of the organization the ad account belongs to.
-        adAccountId:
-          type: string
-          description: ID of the ad account to revoke access from. Must belong to orgId.
-        userId:
-          type: string
-          description: ID of the user whose ad-account access is being removed.
-      required:
-      - orgId
-      - adAccountId
-      - userId
     CreateAdAccountRequest:
       type: object
       properties:
@@ -210,6 +182,34 @@ components:
       - companyName
       - industry
       - orgId
+    AdAccountGroupsResponse:
+      type: object
+      description: Envelope carrying ad accounts grouped by organization.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Organization ID.
+                  name:
+                    type: string
+                    description: Organization name.
+                  adAccounts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdAccount'
     AddAdAccountUserRequest:
       type: object
       properties:
@@ -234,6 +234,34 @@ components:
       - adAccountId
       - email
       - role
+    DeleteAdAccountUserRequest:
+      type: object
+      properties:
+        orgId:
+          type: string
+          description: ID of the organization the ad account belongs to.
+        adAccountId:
+          type: string
+          description: ID of the ad account to revoke access from. Must belong to orgId.
+        userId:
+          type: string
+          description: ID of the user whose ad-account access is being removed.
+      required:
+      - orgId
+      - adAccountId
+      - userId
+    AdAccountResponse:
+      type: object
+      description: Envelope carrying a single ad account.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          $ref: '#/components/schemas/AdAccount'
     Envelope:
       type: object
       description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
@@ -269,34 +297,6 @@ components:
         createTime:
           type: string
           description: Create time of the ad account.
-    AdAccountGroupsResponse:
-      type: object
-      description: Envelope carrying ad accounts grouped by organization.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    type: string
-                    description: Organization ID.
-                  name:
-                    type: string
-                    description: Organization name.
-                  adAccounts:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/AdAccount'
   securitySchemes:
     AccessToken:
       type: apiKey
