@@ -302,6 +302,31 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
+    StatusRequest:
+      type: object
+      description: Toggle the ON/OFF status of a campaign, ad set or ad.
+      properties:
+        status:
+          type: string
+          description: Target status.
+          enum:
+          - 'ON'
+          - 'OFF'
+      required:
+      - status
+    Envelope:
+      type: object
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          description: Response object.
     Ad:
       type: object
       description: An ad and its creative.
@@ -355,18 +380,6 @@ components:
         updateTime:
           type: string
           description: Update time of the ad.
-    AdResponse:
-      type: object
-      description: Envelope carrying a single ad.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          $ref: '#/components/schemas/Ad'
     UploadAssetResponse:
       type: object
       description: Envelope carrying an uploaded asset.
@@ -432,66 +445,6 @@ components:
       - description
       - callToAction
       - brandName
-    StatusRequest:
-      type: object
-      description: Toggle the ON/OFF status of a campaign, ad set or ad.
-      properties:
-        status:
-          type: string
-          description: Target status.
-          enum:
-          - 'ON'
-          - 'OFF'
-      required:
-      - status
-    AdPageResponse:
-      type: object
-      description: Envelope carrying a page of ads.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          properties:
-            pageNo:
-              type: integer
-              description: Number of current page.
-            pageSize:
-              type: integer
-              description: Size of current page.
-            total:
-              type: integer
-              description: Total size for this search.
-            hasNext:
-              type: boolean
-              description: Whether there is a next page.
-            rows:
-              type: array
-              items:
-                $ref: '#/components/schemas/Ad'
-    UploadAssetRequest:
-      type: object
-      properties:
-        asset:
-          type: string
-          format: binary
-          description: Asset to be uploaded.
-        adAccountId:
-          type: string
-          description: ID of the ad account of the ad.
-        saveToMediaLibrary:
-          type: boolean
-          description: Save the media to the account's Media Library, making it reusable in the ad platform UI.
-        mediaName:
-          type: string
-          description: Media name, 3-256 characters. Required only when saveToMediaLibrary is true.
-      required:
-      - asset
-      - adAccountId
     CreateAdRequest:
       type: object
       properties:
@@ -523,19 +476,6 @@ components:
       - adSetId
       - name
       - creative
-    Envelope:
-      type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          description: Response object.
     UpdateAdRequest:
       type: object
       description: Ad fields to update. All fields are optional.
@@ -561,6 +501,66 @@ components:
           - 'OFF'
         creative:
           $ref: '#/components/schemas/Creative'
+    UploadAssetRequest:
+      type: object
+      properties:
+        asset:
+          type: string
+          format: binary
+          description: Asset to be uploaded.
+        adAccountId:
+          type: string
+          description: ID of the ad account of the ad.
+        saveToMediaLibrary:
+          type: boolean
+          description: Save the media to the account's Media Library, making it reusable in the ad platform UI.
+        mediaName:
+          type: string
+          description: Media name, 3-256 characters. Required only when saveToMediaLibrary is true.
+      required:
+      - asset
+      - adAccountId
+    AdPageResponse:
+      type: object
+      description: Envelope carrying a page of ads.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          properties:
+            pageNo:
+              type: integer
+              description: Number of current page.
+            pageSize:
+              type: integer
+              description: Size of current page.
+            total:
+              type: integer
+              description: Total size for this search.
+            hasNext:
+              type: boolean
+              description: Whether there is a next page.
+            rows:
+              type: array
+              items:
+                $ref: '#/components/schemas/Ad'
+    AdResponse:
+      type: object
+      description: Envelope carrying a single ad.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          $ref: '#/components/schemas/Ad'
   securitySchemes:
     AccessToken:
       type: apiKey

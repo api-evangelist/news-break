@@ -259,6 +259,102 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
+    AdSet:
+      type: object
+      description: 'An ad set: budget, bidding, schedule and targeting under a campaign.'
+      properties:
+        id:
+          type: string
+          description: Ad set ID.
+        name:
+          type: string
+          description: Ad set name.
+        orgId:
+          type: string
+          description: Organization ID.
+        adAccountId:
+          type: string
+          description: Ad account ID.
+        campaignId:
+          type: string
+          description: Campaign ID.
+        trackingId:
+          type: string
+          description: Event tracking ID.
+        budget:
+          type: integer
+          description: Ad set budget in cents.
+        budgetType:
+          type: string
+          description: Budget type of the ad set.
+          enum:
+          - DAILY
+          - TOTAL
+        startTime:
+          type: integer
+          description: Start timestamp of the ad set.
+        endTime:
+          type: integer
+          description: End timestamp of the ad set.
+        bidType:
+          type: string
+          description: Bid type of the ad set.
+          enum:
+          - CPM
+          - CPC
+          - DAY_ONE_MAX_CONVERSION_VALUE
+          - MAX_CONVERSION
+          - MAX_CONVERSION_VALUE
+          - TARGET_CPA
+          - TARGET_ROAS
+          - DAY_ONE_TARGET_ROAS
+        bidRate:
+          type: integer
+          description: Bid rate of the ad set in cents.
+        onlineStatus:
+          type: string
+          description: Online status of the ad set.
+          enum:
+          - WARNING
+          - INACTIVE
+          - ACTIVE
+          - DELETED
+          - READY
+          - COMPLETED
+        status:
+          type: string
+          description: Ad set status.
+          enum:
+          - 'ON'
+          - 'OFF'
+        targeting:
+          $ref: '#/components/schemas/Targeting'
+    TargetingField:
+      type: object
+      description: An AdSetTarget object with positive (include) and/or negative (exclude) lists.
+      properties:
+        positive:
+          type: array
+          description: Values to include. Use ["all"] for unlimited; "all" may not be combined with other values.
+          items:
+            type: string
+        negative:
+          type: array
+          description: Values to exclude. Only the location and device-location fields support a negative list.
+          items:
+            type: string
+    StatusRequest:
+      type: object
+      description: Toggle the ON/OFF status of a campaign, ad set or ad.
+      properties:
+        status:
+          type: string
+          description: Target status.
+          enum:
+          - 'ON'
+          - 'OFF'
+      required:
+      - status
     AdSetPageResponse:
       type: object
       description: Envelope carrying a page of ad sets.
@@ -288,6 +384,19 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/AdSet'
+    Envelope:
+      type: object
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          description: Response object.
     CreateAdSetRequest:
       type: object
       properties:
@@ -375,6 +484,23 @@ components:
       - startTime
       - endTime
       - bidType
+    AdSetResponse:
+      type: object
+      description: Envelope carrying a single ad set.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          $ref: '#/components/schemas/AdSet'
+    Targeting:
+      type: object
+      description: Audience targeting for an ad set. Each field accepts an AdSetTarget object with positive (include) and/or negative (exclude) lists. Mixing positive and negative is only allowed on location and device-location fields.
+      additionalProperties:
+        $ref: '#/components/schemas/TargetingField'
     UpdateAdSetRequest:
       type: object
       description: Ad set fields to update. All fields are optional; only supplied fields are changed.
@@ -452,132 +578,6 @@ components:
             - PREMIUM_PARTNERS_NON_GAMING
         targeting:
           $ref: '#/components/schemas/Targeting'
-    TargetingField:
-      type: object
-      description: An AdSetTarget object with positive (include) and/or negative (exclude) lists.
-      properties:
-        positive:
-          type: array
-          description: Values to include. Use ["all"] for unlimited; "all" may not be combined with other values.
-          items:
-            type: string
-        negative:
-          type: array
-          description: Values to exclude. Only the location and device-location fields support a negative list.
-          items:
-            type: string
-    AdSet:
-      type: object
-      description: 'An ad set: budget, bidding, schedule and targeting under a campaign.'
-      properties:
-        id:
-          type: string
-          description: Ad set ID.
-        name:
-          type: string
-          description: Ad set name.
-        orgId:
-          type: string
-          description: Organization ID.
-        adAccountId:
-          type: string
-          description: Ad account ID.
-        campaignId:
-          type: string
-          description: Campaign ID.
-        trackingId:
-          type: string
-          description: Event tracking ID.
-        budget:
-          type: integer
-          description: Ad set budget in cents.
-        budgetType:
-          type: string
-          description: Budget type of the ad set.
-          enum:
-          - DAILY
-          - TOTAL
-        startTime:
-          type: integer
-          description: Start timestamp of the ad set.
-        endTime:
-          type: integer
-          description: End timestamp of the ad set.
-        bidType:
-          type: string
-          description: Bid type of the ad set.
-          enum:
-          - CPM
-          - CPC
-          - DAY_ONE_MAX_CONVERSION_VALUE
-          - MAX_CONVERSION
-          - MAX_CONVERSION_VALUE
-          - TARGET_CPA
-          - TARGET_ROAS
-          - DAY_ONE_TARGET_ROAS
-        bidRate:
-          type: integer
-          description: Bid rate of the ad set in cents.
-        onlineStatus:
-          type: string
-          description: Online status of the ad set.
-          enum:
-          - WARNING
-          - INACTIVE
-          - ACTIVE
-          - DELETED
-          - READY
-          - COMPLETED
-        status:
-          type: string
-          description: Ad set status.
-          enum:
-          - 'ON'
-          - 'OFF'
-        targeting:
-          $ref: '#/components/schemas/Targeting'
-    Targeting:
-      type: object
-      description: Audience targeting for an ad set. Each field accepts an AdSetTarget object with positive (include) and/or negative (exclude) lists. Mixing positive and negative is only allowed on location and device-location fields.
-      additionalProperties:
-        $ref: '#/components/schemas/TargetingField'
-    StatusRequest:
-      type: object
-      description: Toggle the ON/OFF status of a campaign, ad set or ad.
-      properties:
-        status:
-          type: string
-          description: Target status.
-          enum:
-          - 'ON'
-          - 'OFF'
-      required:
-      - status
-    AdSetResponse:
-      type: object
-      description: Envelope carrying a single ad set.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          $ref: '#/components/schemas/AdSet'
-    Envelope:
-      type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          description: Response object.
   securitySchemes:
     AccessToken:
       type: apiKey

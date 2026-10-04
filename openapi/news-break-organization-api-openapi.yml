@@ -48,16 +48,19 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    Organization:
+    Envelope:
       type: object
-      description: An advertising organization.
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
       properties:
-        id:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
           type: string
-          description: Organization ID.
-        name:
-          type: string
-          description: Organization name.
+          description: Error message when code != 0.
+        data:
+          type: object
+          description: Response object.
     OrganizationListResponse:
       type: object
       description: Envelope carrying a list of organizations.
@@ -75,19 +78,16 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Organization'
-    Envelope:
+    Organization:
       type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      description: An advertising organization.
       properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
+        id:
           type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          description: Response object.
+          description: Organization ID.
+        name:
+          type: string
+          description: Organization name.
   securitySchemes:
     AccessToken:
       type: apiKey
