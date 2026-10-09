@@ -1,22 +1,25 @@
-generated: '2026-08-01'
+generated: '2026-09-23'
 method: generated
-source: openapi/news-break-advertising-openapi.yml, openapi/news-break-monetization-reporting-openapi.yml
+source: openapi/news-break-account-billing-api-openapi.yml, openapi/news-break-ad-account-api-openapi.yml,
+  openapi/news-break-ad-api-openapi.yml, openapi/news-break-ad-set-api-openapi.yml, openapi/news-break-campaign-api-openapi.yml,
+  openapi/news-break-event-management-api-openapi.yml, openapi/news-break-organization-api-openapi.yml,
+  openapi/news-break-report-api-openapi.yml, openapi/news-break-reporting-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 28
   by_action_class:
-    connected: 8
-    acting: 20
+    connected: 9
+    acting: 19
   by_consequence:
-    read: 8
-    write: 20
+    read: 9
+    write: 19
   human_in_the_loop_required: 0
 operations:
-- path: /org/admin-orgs
-  method: get
-  operationId: getAdminOrgs
+- path: /balance/getAccountBudgetInfo
+  method: post
+  operationId: getAccountSpendingCap
   x-agentic-access:
     action-class: connected
     consequence: read
@@ -24,6 +27,22 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /balance/updateAccountsBudget
+  method: post
+  operationId: updateAccountSpendingCap
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
 - path: /ad-account/create
   method: post
   operationId: createAdAccount
@@ -69,154 +88,6 @@ operations:
 - path: /ad-account/deleteUser
   method: post
   operationId: deleteAdAccountUser
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /campaign/create
-  method: post
-  operationId: createCampaign
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /campaign/getList
-  method: get
-  operationId: getCampaigns
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /campaign/update/{campaignId}
-  method: put
-  operationId: updateCampaign
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /campaign/updateStatus/{campaignId}
-  method: put
-  operationId: updateCampaignStatus
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /campaign/delete/{campaignId}
-  method: delete
-  operationId: deleteCampaign
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /ad-set/create
-  method: post
-  operationId: createAdSet
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /ad-set/getList
-  method: get
-  operationId: getAdSets
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /ad-set/update/{adSetId}
-  method: put
-  operationId: updateAdSet
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /ad-set/updateStatus/{adSetId}
-  method: put
-  operationId: updateAdSetStatus
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /ad-set/delete/{adSetId}
-  method: delete
-  operationId: deleteAdSet
   x-agentic-access:
     action-class: acting
     consequence: write
@@ -320,6 +191,174 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /ad-set/create
+  method: post
+  operationId: createAdSet
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /ad-set/getList
+  method: get
+  operationId: getAdSets
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /ad-set/update/{adSetId}
+  method: put
+  operationId: updateAdSet
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /ad-set/updateStatus/{adSetId}
+  method: put
+  operationId: updateAdSetStatus
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /ad-set/delete/{adSetId}
+  method: delete
+  operationId: deleteAdSet
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /campaign/create
+  method: post
+  operationId: createCampaign
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /campaign/getList
+  method: get
+  operationId: getCampaigns
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /campaign/update/{campaignId}
+  method: put
+  operationId: updateCampaign
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /campaign/updateStatus/{campaignId}
+  method: put
+  operationId: updateCampaignStatus
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /campaign/delete/{campaignId}
+  method: delete
+  operationId: deleteCampaign
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /event/getList/{adAccountId}
+  method: get
+  operationId: getEvents
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /org/admin-orgs
+  method: get
+  operationId: getAdminOrgs
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /reports/getIntegratedReport
   method: post
   operationId: runSynchronousReport
@@ -355,48 +394,6 @@ operations:
 - path: /reports/getReportById
   method: get
   operationId: getCustomReportById
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /balance/getAccountBudgetInfo
-  method: post
-  operationId: getAccountSpendingCap
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /balance/updateAccountsBudget
-  method: post
-  operationId: updateAccountSpendingCap
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /event/getList/{adAccountId}
-  method: get
-  operationId: getEvents
   x-agentic-access:
     action-class: connected
     consequence: read
