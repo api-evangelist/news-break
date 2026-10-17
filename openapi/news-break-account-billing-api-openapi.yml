@@ -89,6 +89,16 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
+    GetAccountBudgetRequest:
+      type: object
+      properties:
+        accountIds:
+          type: array
+          description: IDs of ad accounts. Must be between 1 and 500 IDs.
+          items:
+            type: string
+      required:
+      - accountIds
     UpdateAccountsBudgetRequest:
       type: object
       properties:
@@ -112,6 +122,30 @@ components:
             - budget
       required:
       - adAccountsBudgetUpdate
+    UpdateAccountBudgetResponse:
+      type: object
+      description: Envelope carrying a per-account spending cap update result.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          type: object
+          properties:
+            list:
+              type: array
+              items:
+                type: object
+                properties:
+                  adAccountId:
+                    type: string
+                    description: Ad account ID.
+                  message:
+                    type: string
+                    description: Success or failure message describing the result for this account.
     Envelope:
       type: object
       description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
@@ -125,16 +159,6 @@ components:
         data:
           type: object
           description: Response object.
-    GetAccountBudgetRequest:
-      type: object
-      properties:
-        accountIds:
-          type: array
-          description: IDs of ad accounts. Must be between 1 and 500 IDs.
-          items:
-            type: string
-      required:
-      - accountIds
     AccountBudgetResponse:
       type: object
       description: Envelope carrying per-account budget information.
@@ -174,30 +198,6 @@ components:
                   failMessage:
                     type: string
                     description: Reason the caller cannot view this account's budget.
-    UpdateAccountBudgetResponse:
-      type: object
-      description: Envelope carrying a per-account spending cap update result.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          properties:
-            list:
-              type: array
-              items:
-                type: object
-                properties:
-                  adAccountId:
-                    type: string
-                    description: Ad account ID.
-                  message:
-                    type: string
-                    description: Success or failure message describing the result for this account.
   securitySchemes:
     AccessToken:
       type: apiKey

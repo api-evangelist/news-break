@@ -249,18 +249,6 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    CampaignResponse:
-      type: object
-      description: Envelope carrying a single campaign.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          $ref: '#/components/schemas/Campaign'
     CreateCampaignRequest:
       type: object
       properties:
@@ -289,6 +277,26 @@ components:
       - adAccountId
       - name
       - objective
+    CampaignResponse:
+      type: object
+      description: Envelope carrying a single campaign.
+      properties:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
+          type: string
+          description: Error message when code != 0.
+        data:
+          $ref: '#/components/schemas/Campaign'
+    UpdateCampaignRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Descriptive name of campaign.
+      required:
+      - name
     StatusRequest:
       type: object
       description: Toggle the ON/OFF status of a campaign, ad set or ad.
@@ -314,35 +322,6 @@ components:
         data:
           type: object
           description: Response object.
-    CampaignPageResponse:
-      type: object
-      description: Envelope carrying a page of campaigns.
-      properties:
-        code:
-          type: integer
-          description: Status code. 0 is successful; see Return Codes.
-        errMsg:
-          type: string
-          description: Error message when code != 0.
-        data:
-          type: object
-          properties:
-            pageNo:
-              type: integer
-              description: Number of current page.
-            pageSize:
-              type: integer
-              description: Size of current page.
-            total:
-              type: integer
-              description: Total size for this search.
-            hasNext:
-              type: boolean
-              description: Whether there is a next page.
-            rows:
-              type: array
-              items:
-                $ref: '#/components/schemas/Campaign'
     Campaign:
       type: object
       description: A NewsBreak advertising campaign.
@@ -391,14 +370,35 @@ components:
         updateTime:
           type: string
           description: Update time of the campaign (unix timestamp as string).
-    UpdateCampaignRequest:
+    CampaignPageResponse:
       type: object
+      description: Envelope carrying a page of campaigns.
       properties:
-        name:
+        code:
+          type: integer
+          description: Status code. 0 is successful; see Return Codes.
+        errMsg:
           type: string
-          description: Descriptive name of campaign.
-      required:
-      - name
+          description: Error message when code != 0.
+        data:
+          type: object
+          properties:
+            pageNo:
+              type: integer
+              description: Number of current page.
+            pageSize:
+              type: integer
+              description: Size of current page.
+            total:
+              type: integer
+              description: Total size for this search.
+            hasNext:
+              type: boolean
+              description: Whether there is a next page.
+            rows:
+              type: array
+              items:
+                $ref: '#/components/schemas/Campaign'
   securitySchemes:
     AccessToken:
       type: apiKey

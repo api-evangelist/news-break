@@ -184,9 +184,49 @@ components:
         createTime:
           type: string
           description: Create time of the ad account.
-    Envelope:
+    DeleteAdAccountUserRequest:
       type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      properties:
+        orgId:
+          type: string
+          description: ID of the organization the ad account belongs to.
+        adAccountId:
+          type: string
+          description: ID of the ad account to revoke access from. Must belong to orgId.
+        userId:
+          type: string
+          description: ID of the user whose ad-account access is being removed.
+      required:
+      - orgId
+      - adAccountId
+      - userId
+    AddAdAccountUserRequest:
+      type: object
+      properties:
+        orgId:
+          type: string
+          description: ID of the organization the ad account belongs to.
+        adAccountId:
+          type: string
+          description: ID of the ad account to grant access to. Must belong to orgId.
+        email:
+          type: string
+          description: Email address of the user to add.
+        role:
+          type: string
+          description: Access role to assign on the ad account.
+          enum:
+          - ACC_ADMIN
+          - ACC_OPERATOR
+          - ACC_VIEWER
+      required:
+      - orgId
+      - adAccountId
+      - email
+      - role
+    AdAccountResponse:
+      type: object
+      description: Envelope carrying a single ad account.
       properties:
         code:
           type: integer
@@ -195,8 +235,7 @@ components:
           type: string
           description: Error message when code != 0.
         data:
-          type: object
-          description: Response object.
+          $ref: '#/components/schemas/AdAccount'
     CreateAdAccountRequest:
       type: object
       properties:
@@ -217,25 +256,9 @@ components:
       - companyName
       - industry
       - orgId
-    DeleteAdAccountUserRequest:
+    Envelope:
       type: object
-      properties:
-        orgId:
-          type: string
-          description: ID of the organization the ad account belongs to.
-        adAccountId:
-          type: string
-          description: ID of the ad account to revoke access from. Must belong to orgId.
-        userId:
-          type: string
-          description: ID of the user whose ad-account access is being removed.
-      required:
-      - orgId
-      - adAccountId
-      - userId
-    AdAccountResponse:
-      type: object
-      description: Envelope carrying a single ad account.
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
       properties:
         code:
           type: integer
@@ -244,7 +267,8 @@ components:
           type: string
           description: Error message when code != 0.
         data:
-          $ref: '#/components/schemas/AdAccount'
+          type: object
+          description: Response object.
     AdAccountGroupsResponse:
       type: object
       description: Envelope carrying ad accounts grouped by organization.
@@ -273,30 +297,6 @@ components:
                     type: array
                     items:
                       $ref: '#/components/schemas/AdAccount'
-    AddAdAccountUserRequest:
-      type: object
-      properties:
-        orgId:
-          type: string
-          description: ID of the organization the ad account belongs to.
-        adAccountId:
-          type: string
-          description: ID of the ad account to grant access to. Must belong to orgId.
-        email:
-          type: string
-          description: Email address of the user to add.
-        role:
-          type: string
-          description: Access role to assign on the ad account.
-          enum:
-          - ACC_ADMIN
-          - ACC_OPERATOR
-          - ACC_VIEWER
-      required:
-      - orgId
-      - adAccountId
-      - email
-      - role
   securitySchemes:
     AccessToken:
       type: apiKey

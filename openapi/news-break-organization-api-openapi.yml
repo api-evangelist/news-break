@@ -61,6 +61,16 @@ components:
         data:
           type: object
           description: Response object.
+    Organization:
+      type: object
+      description: An advertising organization.
+      properties:
+        id:
+          type: string
+          description: Organization ID.
+        name:
+          type: string
+          description: Organization name.
     OrganizationListResponse:
       type: object
       description: Envelope carrying a list of organizations.
@@ -78,16 +88,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Organization'
-    Organization:
-      type: object
-      description: An advertising organization.
-      properties:
-        id:
-          type: string
-          description: Organization ID.
-        name:
-          type: string
-          description: Organization name.
   securitySchemes:
     AccessToken:
       type: apiKey

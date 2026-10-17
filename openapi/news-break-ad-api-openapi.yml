@@ -302,21 +302,9 @@ paths:
                 $ref: '#/components/schemas/Envelope'
 components:
   schemas:
-    StatusRequest:
+    UploadAssetResponse:
       type: object
-      description: Toggle the ON/OFF status of a campaign, ad set or ad.
-      properties:
-        status:
-          type: string
-          description: Target status.
-          enum:
-          - 'ON'
-          - 'OFF'
-      required:
-      - status
-    Envelope:
-      type: object
-      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
+      description: Envelope carrying an uploaded asset.
       properties:
         code:
           type: integer
@@ -326,7 +314,13 @@ components:
           description: Error message when code != 0.
         data:
           type: object
-          description: Response object.
+          properties:
+            assetUrl:
+              type: string
+              description: URL of the uploaded image, video or GIF on the NewsBreak CDN.
+            mediaId:
+              type: string
+              description: Media ID.
     Ad:
       type: object
       description: An ad and its creative.
@@ -380,9 +374,9 @@ components:
         updateTime:
           type: string
           description: Update time of the ad.
-    UploadAssetResponse:
+    AdPageResponse:
       type: object
-      description: Envelope carrying an uploaded asset.
+      description: Envelope carrying a page of ads.
       properties:
         code:
           type: integer
@@ -393,12 +387,72 @@ components:
         data:
           type: object
           properties:
-            assetUrl:
-              type: string
-              description: URL of the uploaded image, video or GIF on the NewsBreak CDN.
-            mediaId:
-              type: string
-              description: Media ID.
+            pageNo:
+              type: integer
+              description: Number of current page.
+            pageSize:
+              type: integer
+              description: Size of current page.
+            total:
+              type: integer
+              description: Total size for this search.
+            hasNext:
+              type: boolean
+              description: Whether there is a next page.
+            rows:
+              type: array
+              items:
+                $ref: '#/components/schemas/Ad'
+    UploadAssetRequest:
+      type: object
+      properties:
+        asset:
+          type: string
+          format: binary
+          description: Asset to be uploaded.
+        adAccountId:
+          type: string
+          description: ID of the ad account of the ad.
+        saveToMediaLibrary:
+          type: boolean
+          description: Save the media to the account's Media Library, making it reusable in the ad platform UI.
+        mediaName:
+          type: string
+          description: Media name, 3-256 characters. Required only when saveToMediaLibrary is true.
+      required:
+      - asset
+      - adAccountId
+    CreateAdRequest:
+      type: object
+      properties:
+        adSetId:
+          type: string
+          description: ID of ad set.
+        name:
+          type: string
+          description: Descriptive name of the ad.
+        clickTrackingUrl:
+          type: array
+          description: Click tracking URL list.
+          items:
+            type: string
+        impressionTrackingUrl:
+          type: array
+          description: Impression tracking URL list.
+          items:
+            type: string
+        status:
+          type: string
+          description: Status of the ad. Default is ON.
+          enum:
+          - 'ON'
+          - 'OFF'
+        creative:
+          $ref: '#/components/schemas/Creative'
+      required:
+      - adSetId
+      - name
+      - creative
     Creative:
       type: object
       description: The creative rendered for an ad.
@@ -445,37 +499,6 @@ components:
       - description
       - callToAction
       - brandName
-    CreateAdRequest:
-      type: object
-      properties:
-        adSetId:
-          type: string
-          description: ID of ad set.
-        name:
-          type: string
-          description: Descriptive name of the ad.
-        clickTrackingUrl:
-          type: array
-          description: Click tracking URL list.
-          items:
-            type: string
-        impressionTrackingUrl:
-          type: array
-          description: Impression tracking URL list.
-          items:
-            type: string
-        status:
-          type: string
-          description: Status of the ad. Default is ON.
-          enum:
-          - 'ON'
-          - 'OFF'
-        creative:
-          $ref: '#/components/schemas/Creative'
-      required:
-      - adSetId
-      - name
-      - creative
     UpdateAdRequest:
       type: object
       description: Ad fields to update. All fields are optional.
@@ -501,28 +524,21 @@ components:
           - 'OFF'
         creative:
           $ref: '#/components/schemas/Creative'
-    UploadAssetRequest:
+    StatusRequest:
       type: object
+      description: Toggle the ON/OFF status of a campaign, ad set or ad.
       properties:
-        asset:
+        status:
           type: string
-          format: binary
-          description: Asset to be uploaded.
-        adAccountId:
-          type: string
-          description: ID of the ad account of the ad.
-        saveToMediaLibrary:
-          type: boolean
-          description: Save the media to the account's Media Library, making it reusable in the ad platform UI.
-        mediaName:
-          type: string
-          description: Media name, 3-256 characters. Required only when saveToMediaLibrary is true.
+          description: Target status.
+          enum:
+          - 'ON'
+          - 'OFF'
       required:
-      - asset
-      - adAccountId
-    AdPageResponse:
+      - status
+    Envelope:
       type: object
-      description: Envelope carrying a page of ads.
+      description: The standard NewsBreak response envelope. Every operation returns HTTP 200 with a `code` field; code 0 means success and any other value is an error (see Return Codes).
       properties:
         code:
           type: integer
@@ -532,23 +548,7 @@ components:
           description: Error message when code != 0.
         data:
           type: object
-          properties:
-            pageNo:
-              type: integer
-              description: Number of current page.
-            pageSize:
-              type: integer
-              description: Size of current page.
-            total:
-              type: integer
-              description: Total size for this search.
-            hasNext:
-              type: boolean
-              description: Whether there is a next page.
-            rows:
-              type: array
-              items:
-                $ref: '#/components/schemas/Ad'
+          description: Response object.
     AdResponse:
       type: object
       description: Envelope carrying a single ad.
