@@ -64,41 +64,135 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-NewsBreak is the leading local news and information platform in the United States, operated by
-Particle Media, Inc. Its AI-powered platform serves more than 40 million Americans a month with
-local news, alerts, crime maps, weather, events and community content.
+NewsBreak is the leading local news and information platform in the United States, operated by Particle Media, Inc., a Delaware corporation founded in Silicon Valley in 2015 and launched as a mobile app in 2016. Its AI-powered platform serves more than 40 million Americans a month with local news, alerts, crime maps, weather, events and community content, connecting local users, local content creators and local businesses at scale. NewsBreak exposes two developer surfaces. The NewsBreak Advertising API (NewsBreak API for Business) lets technology companies, direct advertisers and agencies programmatically manage the NewsBreak Ads Manager: organizations and ad accounts, ad-account user roles, campaigns, ad sets with budget, bidding, inventory platforms and audience targeting, ads and creative asset upload, account spending caps, conversion tracking events, and multidimensional performance reporting. The NewsBreak MSP Monetization Reporting API serves the supply side, returning impressions, revenue, publisher net revenue and eCPM for publishers and monetization partners. NewsBreak also publishes an llms.txt that scopes AI access to its verified local-business content surface.
 
-- https://www.newsbreak.com/
-- https://www.newsbreak.com/who-we-are
+**Areas:** Company · Advertising · AdTech · News · Media · Local News · Publishing · Monetization · Campaign Management · Reporting · Analytics · Content
 
-## APIs
+## News Break on APIs.io
 
-| API | Host | Docs |
-|---|---|---|
-| NewsBreak Advertising API (API for Business) | `https://business.newsbreak.com/business-api/v1` | https://advertising-api.newsbreak.com/hc/en-us |
-| NewsBreak MSP Monetization Reporting API | `https://msp-platform.newsbreak.com` | https://doc.msp.newsbreak.com/business-api-doc/docs/overview/ |
+Everything profiled for News Break is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/news-break/](https://apis.io/providers/news-break/)** — or go straight to one of the APIs or properties below.
 
-## Artifacts
+### APIs (9)
 
-- `openapi/` — two OpenAPI 3.1.0 documents (28 operations). **NewsBreak publishes no
-  machine-readable contract**; both were authored by API Evangelist from the provider's published
-  reference, with every operation carrying an `externalDocs` link back to the source article.
-- `llms/` — NewsBreak's own `llms.txt`, saved verbatim.
-- `authentication/`, `conventions/`, `errors/`, `rate-limits/`, `lifecycle/`, `changelog/`,
-  `conformance/`, `data-model/` — the documented contract semantics.
-- `skills/`, `arazzo/`, `mcp/`, `agentic-access/`, `overlays/` — agent-facing derivations.
-- `security/`, `well-known/` — probe results, including negative results.
+- [News Break Account Billing API](https://apis.io/apis/news-break/news-break-account-billing-api/) — Account-level spending caps and remaining budget.
+- [News Break Ad Account API](https://apis.io/apis/news-break/news-break-ad-account-api/) — Ad accounts under an organization and the users who can access them.
+- [News Break Ad API](https://apis.io/apis/news-break/news-break-ad-api/) — Ads and their creatives, plus creative asset upload.
+- [News Break Ad Set API](https://apis.io/apis/news-break/news-break-ad-set-api/) — Ad sets: budget, bidding, schedule, platforms and audience targeting.
+- [News Break Campaign API](https://apis.io/apis/news-break/news-break-campaign-api/) — Campaigns: the objective-level container for ad sets.
+- [News Break Event Management API](https://apis.io/apis/news-break/news-break-event-management-api/) — Conversion tracking events (pixel and postback).
+- [News Break Organization API](https://apis.io/apis/news-break/news-break-organization-api/) — Organizations the calling user administers.
+- [News Break Report API](https://apis.io/apis/news-break/news-break-report-api/) — Synchronous and saved custom performance reports.
+- [News Break Reporting API](https://apis.io/apis/news-break/news-break-reporting-api/) — Aggregated monetization performance reporting for MSP organizations and apps.
 
-## Notable
+### Published properties
 
-- **No OpenAPI, no MCP server, no agent card, no SDKs, no GitHub org, no Postman collection, and no
-  `/.well-known/` document on any host.** `msp-platform.newsbreak.com/swagger.json` answers HTTP 200
-  with a **zero-byte body**.
-- **Errors arrive inside HTTP 200.** Both APIs return `{code, errMsg, data}`; only `code == 0` is
-  success. There is no RFC 9457.
-- **No idempotency contract** on any create operation.
-- Rate limits are published as real numbers (Basic 10 QPS / 600 QPM / 864,000 QPD, up to Premium
-  30 / 1,800 / 2,592,000) but signalled only by body code `4034` — there are no rate-limit headers.
-- `business.newsbreak.com`, the host that carries the API credential, is the only NewsBreak host on
-  **TLS 1.2 with no HSTS**.
-- The MSP Reporting API passes its secret in the **query string**.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### Arazzo workflows (2)
+
+Multi-step workflows that chain operations into a business task.
+
+- [Launch a NewsBreak advertising campaign](https://apis.io/arazzos/news-break/news-break-launch-campaign/)
+- [Report on a NewsBreak ad account and pause underperforming campaigns](https://apis.io/arazzos/news-break/news-break-pause-and-report/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [News Break Agentic Access](https://apis.io/agentic-access/news-break/news-break-agentic-access/)
+
+#### Collections (2)
+
+Postman and Open Collection request collections.
+
+- [NewsBreak Advertising API](https://apis.io/collections/news-break/open-news-break-advertising/)
+- [NewsBreak MSP Monetization Reporting API](https://apis.io/collections/news-break/open-news-break-monetization-reporting/)
+
+#### Overlays (2)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [News Break Advertising Overlay](https://apis.io/overlays/news-break/news-break-advertising-overlay/)
+- [News Break Monetization Reporting Overlay](https://apis.io/overlays/news-break/news-break-monetization-reporting-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [News Break Authentication](https://apis.io/security/news-break/news-break-authentication/)
+- [News Break Domain Security](https://apis.io/security/news-break/news-break-domain-security/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [News Break Rate Limits](https://apis.io/rate-limits/news-break/news-break-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.newsbreak.com/)
+- [Documentation](https://advertising-api.newsbreak.com/hc/en-us)
+- [Getting started](https://advertising-api.newsbreak.com/hc/en-us/articles/43889846961037-API-Integration-Guide)
+- [API reference](https://advertising-api.newsbreak.com/hc/en-us/categories/37825505060237-API-Reference)
+- [Sign up](https://business.newsbreak.com/)
+- [Support](https://help.newsbreak.com/hc/en-us)
+- [Blog](https://www.newsbreak.com/blog)
+- [Terms of service](https://www.newsbreak.com/terms)
+- [Privacy policy](https://www.newsbreak.com/privacy)
+
+## API Evangelist rating
+
+**Kin Score 46.5** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 52.5 |
+| Contract governance | 4.5 |
+| Operational transparency | 47.4 |
+| Developer ergonomics | 58.9 |
+| Access clarity | 34.2 |
+
+**Agent readiness 30.5** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/news-break/](https://apis.io/providers/news-break/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for News Break: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/news-break/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
